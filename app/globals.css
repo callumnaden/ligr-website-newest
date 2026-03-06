@@ -1,26 +1,196 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@layer base {
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html, body {
+  background: #1D202A;
+  color: #f7f7f7;
+  font-family: "Inter", sans-serif;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
+
+/* ── Animated gradient (hero card, CTA card, buttons) ── */
+.gradient-wave {
+  background: linear-gradient(135deg, #ff504e 0%, #e0302e 25%, #ff6b50 60%, #ff504e 100%);
+  background-size: 300% 300%;
+  animation: gradientWave 8s ease infinite;
+}
+
+@keyframes gradientWave {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Hero / CTA full gradient card ── */
+.gradient-card {
+  background: linear-gradient(135deg, #FF504E 0%, #13161B 50%, #FF504E 100%);
+  background-size: 200% 200%;
+  animation: gradientWave 8s ease infinite;
+}
+
+/* ── Gradient text ── */
+.gradient-text {
+  background: linear-gradient(135deg, #ff504e 0%, #ff8a65 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Rotating gradient border ── */
+.gradient-border-wrap {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+}
+
+.gradient-border-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(from 0deg, #13161B 0%, #13161B 35%, #FF504E 50%, #13161B 65%, #13161B 100%);
+  animation: rotateBorder 4s linear infinite;
+  z-index: 0;
+}
+
+@keyframes rotateBorder {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Dot grid ── */
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* ── Dark radial mask ── */
+.radial-mask {
+  background: radial-gradient(52% 100% at 50% 0%, rgba(0,0,0,0.6) 0%, transparent 100%);
+}
+
+/* ── Dashboard mockup (light) ── */
+.dashboard-mockup {
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* ── Floating ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+.float { animation: float 5s ease-in-out infinite; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #1D202A; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+
+/* ── Blog article prose ── */
+.blog-prose h1, .blog-prose h2 {
+  font-size: 30px; font-weight: 600; color: #F7F7F7;
+  line-height: 38px; margin-top: 48px; margin-bottom: 20px;
+}
+.blog-prose h1:first-child, .blog-prose h2:first-child { margin-top: 0; }
+.blog-prose h3 {
+  font-size: 24px; font-weight: 600; color: #F7F7F7;
+  line-height: 32px; margin-top: 32px; margin-bottom: 12px;
+}
+.blog-prose h4 {
+  font-size: 20px; font-weight: 600; color: #F7F7F7;
+  line-height: 28px; margin-top: 24px; margin-bottom: 8px;
+}
+.blog-prose p {
+  font-size: 18px; font-weight: 400; color: #94979C;
+  line-height: 28px; margin-bottom: 20px;
+}
+.blog-prose ul, .blog-prose ol {
+  padding-left: 0; margin-bottom: 20px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.blog-prose li {
+  font-size: 18px; color: #94979C; line-height: 28px;
+  padding-left: 24px; position: relative; list-style: none;
+}
+.blog-prose ul li::before {
+  content: ""; position: absolute; left: 4px; top: 11px;
+  width: 6px; height: 6px; border-radius: 50%; background: #FF504E;
+}
+.blog-prose ol { counter-reset: list-counter; }
+.blog-prose ol li { counter-increment: list-counter; }
+.blog-prose ol li::before {
+  content: counter(list-counter) "."; position: absolute;
+  left: 0; color: #FF504E; font-weight: 600; font-size: 16px;
+}
+.blog-prose a { color: #FF504E; text-decoration: underline; }
+.blog-prose a:hover { color: #FF8A65; }
+.blog-prose strong, .blog-prose b { color: #F7F7F7; font-weight: 600; }
+.blog-prose em, .blog-prose i { color: #CECFD2; font-style: italic; }
+.blog-prose img {
+  width: 100% !important; height: 100% !important; max-width: 100% !important;
+  border-radius: 12px; margin: 40px 0; display: block;
+}
+.blog-prose iframe {
+  width: 100% !important; height: 100% !important; aspect-ratio: 16/9;
+  border: none; border-radius: 12px; margin: 40px 0; display: block;
+}
+.blog-prose video {
+  width: 100% !important; height: 100% !important;
+  border-radius: 12px; margin: 40px 0; display: block;
+}
+.blog-prose figure {
+  margin: 40px 0; width: 100%;
+}
+.blog-prose figure img, .blog-prose figure iframe, .blog-prose figure video {
+  margin: 0 0 12px;
+}
+.blog-prose figcaption {
+  font-size: 14px; color: #94979C; line-height: 20px;
+}
+.blog-prose blockquote {
+  border-left: 2px solid #FF504E; padding: 8px 0 8px 20px;
+  margin: 40px 0;
+}
+.blog-prose blockquote p {
+  font-size: 24px; font-weight: 500; color: #F7F7F7;
+  line-height: 32px; margin: 0;
+}
+.blog-prose code {
+  background: #22262F; border: 1px solid #373A41; border-radius: 4px;
+  padding: 2px 6px; font-size: 14px; color: #CECFD2;
+  font-family: ui-monospace, monospace;
+}
+.blog-prose pre {
+  background: #13161B; border: 1px solid #22262F; border-radius: 12px;
+  padding: 24px; margin: 32px 0; overflow-x: auto;
+}
+.blog-prose pre code {
+  background: none; border: none; padding: 0; font-size: 14px; color: #CECFD2;
+}
+.blog-prose hr {
+  border: none; border-top: 1px solid #22262F; margin: 48px 0;
+}
+.blog-prose table {
+  width: 100%; border-collapse: collapse; margin: 32px 0;
+  font-size: 16px; color: #94979C;
+}
+.blog-prose th {
+  text-align: left; padding: 10px 16px;
+  border-bottom: 1px solid #373A41; color: #F7F7F7; font-weight: 600;
+}
+.blog-prose td {
+  padding: 10px 16px; border-bottom: 1px solid #22262F;
+}
+/* Ensure wrapper divs from external sites don't constrain media */
+.blog-prose div { width: 100%; max-width: 100%; }
+.blog-prose span { display: inline; }

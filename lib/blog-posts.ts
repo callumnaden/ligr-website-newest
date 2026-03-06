@@ -1,0 +1,138 @@
+export interface BlogPost {
+  slug: string;
+  title: string;
+  category: string;
+  date: string;
+  readTime: string;
+  excerpt: string;
+  gradient: string;
+}
+
+export const blogPosts: BlogPost[] = [
+  {
+    slug: "ligr-fuse-launch-rive-integration",
+    title: "Introducing LIGR Fuse — Design Broadcast Graphics in Rive, Deploy to Air",
+    category: "Product Launch",
+    date: "1 Mar 2026",
+    readTime: "6 min read",
+    excerpt: "The graphics configuration engine that connects Rive designs directly to live broadcast production — no developers, no code, no limits.",
+    gradient: "linear-gradient(135deg, #3d1212 0%, #2a0d0d 40%, #0f0f17 100%)",
+  },
+  {
+    slug: "fuse",
+    title: "LIGR Fuse — Graphics Configuration & Publishing",
+    category: "Product Guide",
+    date: "1 Mar 2026",
+    readTime: "8 min read",
+    excerpt: "Design in Rive. Configure in Fuse. Publish to air. A complete guide to Rive integration, data binding, control variables, and theme publishing.",
+    gradient: "linear-gradient(135deg, #1a0d2d 0%, #120a20 40%, #0f0f17 100%)",
+  },
+  {
+    slug: "why-stream-to-ligr",
+    title: "Why Stream to LIGR — The Case for Professional Broadcast Graphics",
+    category: "Why LIGR",
+    date: "28 Feb 2026",
+    readTime: "5 min read",
+    excerpt: "Your automated camera captures the action. LIGR transforms it into a professional broadcast with graphics, sponsors, highlights, and multi-platform delivery.",
+    gradient: "linear-gradient(135deg, #2d1a0d 0%, #1a0f08 40%, #0f0f17 100%)",
+  },
+  {
+    slug: "stream-pixellot-to-ligr",
+    title: "How to Stream from Pixellot to LIGR",
+    category: "Pixellot",
+    date: "28 Feb 2026",
+    readTime: "3 min read",
+    excerpt: "Connect your Pixellot AI camera to LIGR for broadcast-quality graphics, sponsor overlays, and fully automated production without camera operators.",
+    gradient: "linear-gradient(135deg, #0d1a2d 0%, #0a1220 40%, #0f0f17 100%)",
+  },
+  {
+    slug: "stream-veo-to-ligr",
+    title: "How to Stream from Veo to LIGR",
+    category: "Veo",
+    date: "28 Feb 2026",
+    readTime: "3 min read",
+    excerpt: "Transform your Veo camera feed into a professional broadcast with TV-quality graphics, sponsor overlays, and fully automated production.",
+    gradient: "linear-gradient(135deg, #0d2d1a 0%, #0a200e 40%, #0f0f17 100%)",
+  },
+  {
+    slug: "stream-hudl-focus-to-ligr",
+    title: "How to Stream from Hudl Focus to LIGR",
+    category: "Hudl Focus",
+    date: "28 Feb 2026",
+    readTime: "3 min read",
+    excerpt: "Combine Hudl Focus camera feeds with professional LIGR graphics and sponsor advertising using OBS Studio as your streaming bridge.",
+    gradient: "linear-gradient(135deg, #1a0d2d 0%, #130a20 40%, #0f0f17 100%)",
+  },
+  {
+    slug: "stream-spiideo-to-ligr",
+    title: "How to Stream from Spiideo to LIGR",
+    category: "Spiideo",
+    date: "28 Feb 2026",
+    readTime: "3 min read",
+    excerpt: "Connect your Spiideo camera via RTMP or SRT for fully automated graphics production and sponsor revenue on every live broadcast.",
+    gradient: "linear-gradient(135deg, #0d2a2a 0%, #081a1a 40%, #0f0f17 100%)",
+  },
+  {
+    slug: "stream-vios-ai-cameras-to-ligr",
+    title: "How to Stream AI Cameras to LIGR",
+    category: "AI Cameras",
+    date: "28 Feb 2026",
+    readTime: "3 min read",
+    excerpt: "Connect any RTMP-capable AI sports camera to LIGR for broadcast graphics, automated scoreboards, and multi-platform distribution.",
+    gradient: "linear-gradient(135deg, #1a1a1a 0%, #121212 40%, #0f0f17 100%)",
+  },
+  {
+    slug: "stream-obs-to-ligr",
+    title: "How to Stream from OBS Studio to LIGR",
+    category: "OBS Studio",
+    date: "28 Feb 2026",
+    readTime: "3 min read",
+    excerpt: "Transform your OBS stream into a professional broadcast with TV-quality graphics, live scoring, and sponsor overlays — zero operators required.",
+    gradient: "linear-gradient(135deg, #1a1212 0%, #120d0d 40%, #0f0f17 100%)",
+  },
+  {
+    slug: "stream-vmix-to-ligr",
+    title: "How to Stream from vMix to LIGR",
+    category: "vMix",
+    date: "28 Feb 2026",
+    readTime: "3 min read",
+    excerpt: "Route your vMix production through LIGR for cloud-based broadcast graphics, automated overlays, and sponsor monetisation on every stream.",
+    gradient: "linear-gradient(135deg, #0d1a2d 0%, #080f1a 40%, #0f0f17 100%)",
+  },
+  {
+    slug: "stream-wirecast-to-ligr",
+    title: "How to Stream from Wirecast to LIGR",
+    category: "Wirecast",
+    date: "28 Feb 2026",
+    readTime: "3 min read",
+    excerpt: "Add professional broadcast graphics and automated production to your Wirecast streams via RTMP for a complete broadcast workflow.",
+    gradient: "linear-gradient(135deg, #2d1a0d 0%, #1a0f08 40%, #0f0f17 100%)",
+  },
+  {
+    slug: "stream-streamyard-to-ligr",
+    title: "How to Stream from StreamYard to LIGR",
+    category: "StreamYard",
+    date: "28 Feb 2026",
+    readTime: "3 min read",
+    excerpt: "Upgrade your browser-based StreamYard studio with professional LIGR graphics, automated scoreboards, and sponsor overlays.",
+    gradient: "linear-gradient(135deg, #2d0d1a 0%, #1a0810 40%, #0f0f17 100%)",
+  },
+  {
+    slug: "stream-blackmagic-atem-to-ligr",
+    title: "How to Stream from Blackmagic ATEM to LIGR",
+    category: "Blackmagic ATEM",
+    date: "28 Feb 2026",
+    readTime: "3 min read",
+    excerpt: "Pair your ATEM hardware switcher with LIGR's cloud graphics pipeline for broadcast-quality overlays and automated production.",
+    gradient: "linear-gradient(135deg, #0d0d0d 0%, #111113 40%, #0f0f17 100%)",
+  },
+  {
+    slug: "stream-teradek-to-ligr",
+    title: "How to Stream from Teradek to LIGR",
+    category: "Teradek",
+    date: "28 Feb 2026",
+    readTime: "3 min read",
+    excerpt: "Route your Teradek encoder feed through LIGR for professional broadcast graphics, sponsor integration, and multi-platform streaming.",
+    gradient: "linear-gradient(135deg, #0d1a12 0%, #091410 40%, #0f0f17 100%)",
+  },
+];
