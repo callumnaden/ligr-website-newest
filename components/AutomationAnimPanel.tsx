@@ -48,7 +48,7 @@ export default function AutomationAnimPanel() {
 
       const play = () => {
         const tl = gsap.timeline({
-          onComplete: () => gsap.delayedCall(0.8, play),
+          onComplete: () => { gsap.delayedCall(0.8, play); },
         });
 
         // ── Step 1: show collapsed view ──
