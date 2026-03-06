@@ -55,7 +55,7 @@ function extractContent(html: string): string {
 
   for (const pattern of patterns) {
     const match = clean.match(pattern);
-    if (match?.[1]?.trim().length > 100) {
+    if ((match?.[1]?.trim().length ?? 0) > 100) {
       return sanitizeHtml(match[1]);
     }
   }
