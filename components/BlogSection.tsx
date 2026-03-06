@@ -210,10 +210,10 @@ export default function BlogSection() {
           }}
         />
         <div className="max-w-[1280px] mx-auto px-4 md:px-8 pt-16 md:pt-24 pb-16 md:pb-24 relative">
-          <div className="blog-hero-text max-w-[795px] flex flex-col gap-6">
+          <div className="blog-hero-text max-w-[795px] flex flex-col gap-4">
             <p className="text-base font-semibold text-[#CECFD2]">Blog</p>
             <h1
-              className="text-[48px] md:text-[56px] lg:text-[60px] font-bold leading-[1.1] tracking-[-0.02em]"
+              className="text-[36px] md:text-[72px] font-extrabold italic uppercase leading-none font-[family-name:var(--font-roboto-condensed)]"
               style={{
                 background: "linear-gradient(170deg, #FF504E 0%, #FF8A65 100%)",
                 WebkitBackgroundClip: "text",

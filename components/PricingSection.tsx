@@ -383,13 +383,13 @@ export default function PricingSection() {
     <>
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section className="pt-[72px] md:pt-20 px-4 md:px-6 pb-0">
-        <div className="max-w-[1280px] mx-auto px-0 md:px-8 pt-16 pb-16 md:pb-24 flex flex-col gap-8 md:gap-12">
+        <div className="max-w-[1280px] mx-auto px-6 md:px-8 pt-16 md:pt-24 pb-16 md:pb-24 flex flex-col gap-8 md:gap-12">
           {/* Heading group */}
-          <div className="flex flex-col gap-6 max-w-[768px]">
+          <div className="flex flex-col gap-4 max-w-[768px]">
             <p className="text-base font-semibold text-[#CECFD2]">Pricing</p>
             <div className="flex flex-col gap-6">
               <h1
-                className="text-[40px] md:text-[60px] font-bold leading-[1.2] tracking-[-0.02em]"
+                className="text-[36px] md:text-[72px] font-extrabold italic uppercase leading-none font-[family-name:var(--font-roboto-condensed)]"
                 style={{
                   background:
                     "linear-gradient(135deg, #FF504E 0%, #FF8A65 100%)",
@@ -840,30 +840,28 @@ export default function PricingSection() {
         <div className="max-w-[1920px] mx-auto">
           <div
             className="rounded-2xl relative overflow-hidden"
-            style={{
-              background: "linear-gradient(135deg, #FF504E 0%, #2A2D3D 100%)",
-            }}
+            style={{ background: '#2A2D3D' }}
           >
-            <div className="absolute inset-0 dot-grid pointer-events-none opacity-20" />
-            <div className="absolute inset-0 radial-mask pointer-events-none" />
+            <div className="mesh-blob mesh-blob-1" />
+            <div className="mesh-blob mesh-blob-2" />
+            <div className="mesh-blob mesh-blob-3" />
+            <div className="absolute inset-0 dot-grid pointer-events-none" />
             <div className="relative z-10 max-w-[1280px] mx-auto px-6 md:px-8 py-16 md:py-24">
               <div className="max-w-[768px] flex flex-col gap-8">
                 <div className="flex flex-col gap-5">
                   <h2 className="text-[30px] md:text-[36px] font-semibold leading-[1.22] tracking-[-0.02em] text-[#F7F7F7]">
-                    Start broadcasting today.
+                    Not sure what plan is right?
                   </h2>
                   <p className="text-lg md:text-xl font-normal text-[#F7F7F7] leading-[1.6] max-w-[600px]">
-                    Join thousands of sports organisations already using LIGR to
-                    produce professional broadcasts — from grassroots clubs to
-                    national federations.
+                    Talk to our team. We'll help you find the perfect setup for your sport, scale, and budget.
                   </p>
                 </div>
                 <div>
                   <a
-                    href="#"
+                    href="/contact"
                     className="inline-flex items-center justify-center bg-white text-[#FF504E] font-semibold px-[18px] py-3 rounded-lg text-base hover:bg-white/90 transition-colors shadow-[0_1px_2px_rgba(10,13,18,0.05),inset_0_0_0_1px_rgba(10,13,18,0.18),inset_0_-2px_0_rgba(10,13,18,0.05)]"
                   >
-                    Get started free
+                    Chat to sales
                   </a>
                 </div>
               </div>

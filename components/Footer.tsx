@@ -70,7 +70,7 @@ const socials = [
 export default function Footer() {
   return (
     <footer className="pt-12 md:pt-16 pb-12 px-4 md:px-6" style={{ borderTop: "1px solid #22262f" }}>
-      <div className="max-w-[1280px] mx-auto md:px-8">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-8">
         {/* Main footer grid */}
         <div className="flex flex-col lg:flex-row justify-between gap-12 mb-16">
           {/* Logo + tagline */}

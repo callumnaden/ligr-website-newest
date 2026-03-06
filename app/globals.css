@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 
 @layer base {
@@ -9,10 +8,15 @@
 html, body {
   background: #1D202A;
   color: #f7f7f7;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-roboto), sans-serif;
 }
 body {
   overflow-x: hidden;
+}
+
+/* Outside any layer — overrides Tailwind utilities */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-roboto), sans-serif;
 }
 
 /* ── Animated gradient (hero card, CTA card, buttons) ── */
@@ -30,9 +34,64 @@ body {
 
 /* ── Hero / CTA full gradient card ── */
 .gradient-card {
-  background: linear-gradient(135deg, #FF504E 0%, #13161B 50%, #FF504E 100%);
+  background: linear-gradient(135deg, #FF504E 0%, #2A2D3D 50%, #FF504E 100%);
   background-size: 200% 200%;
   animation: gradientWave 8s ease infinite;
+}
+
+/* ── Hero mesh gradient blobs ── */
+.mesh-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  will-change: transform, background-color;
+  opacity: 0.8;
+}
+.mesh-blob-1 {
+  width: 100%; height: 100%;
+  top: -25%; left: -25%;
+  animation: meshBlob1 18s ease-in-out infinite alternate, blobColors 16s ease-in-out infinite;
+}
+.mesh-blob-2 {
+  width: 95%; height: 95%;
+  bottom: -25%; right: -25%;
+  animation: meshBlob2 22s ease-in-out infinite alternate, blobColors 16s ease-in-out infinite -5s;
+}
+.mesh-blob-3 {
+  width: 85%; height: 85%;
+  top: 5%; left: 10%;
+  animation: meshBlob3 26s ease-in-out infinite alternate, blobColors 16s ease-in-out infinite -10s;
+}
+@keyframes blobColors {
+  0%, 100% { background-color: #FF504E; }
+  33%       { background-color: #FF8A65; }
+  66%       { background-color: #2A2D3D; }
+}
+@keyframes dotColors {
+  0%, 100% { --dot-color: rgba(255,80,78,0.35); }
+  33%       { --dot-color: rgba(255,138,101,0.3); }
+  66%       { --dot-color: rgba(255,255,255,0.12); }
+}
+@keyframes meshBlob1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(18%, 22%) scale(1.08); }
+  50%  { transform: translate(8%, -12%) scale(0.95); }
+  75%  { transform: translate(25%, 8%) scale(1.05); }
+  100% { transform: translate(12%, 18%) scale(1.1); }
+}
+@keyframes meshBlob2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(-22%, -18%) scale(1.12); }
+  50%  { transform: translate(-8%, 15%) scale(0.92); }
+  75%  { transform: translate(-18%, -8%) scale(1.06); }
+  100% { transform: translate(-28%, -14%) scale(1.04); }
+}
+@keyframes meshBlob3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(-28%, 18%) scale(1.15); }
+  66%  { transform: translate(20%, -22%) scale(0.88); }
+  100% { transform: translate(-15%, 12%) scale(1.08); }
 }
 
 /* ── Gradient text ── */
@@ -53,23 +112,52 @@ body {
   padding: 2px;
 }
 
+@property --ba1 {
+  syntax: '<color>';
+  initial-value: #FF504E;
+  inherits: false;
+}
+@property --ba2 {
+  syntax: '<color>';
+  initial-value: #FF8A65;
+  inherits: false;
+}
+
 .gradient-border-wrap::before {
   content: '';
   position: absolute;
   inset: -50%;
-  background: conic-gradient(from 0deg, #13161B 0%, #13161B 35%, #FF504E 50%, #13161B 65%, #13161B 100%);
-  animation: rotateBorder 4s linear infinite;
+  background: conic-gradient(from 0deg, #2A2D3D 0%, #2A2D3D 28%, var(--ba1) 42%, var(--ba2) 50%, var(--ba1) 58%, #2A2D3D 72%, #2A2D3D 100%);
+  animation: rotateBorder 4s linear infinite, borderColors 16s ease-in-out infinite;
   z-index: 0;
 }
+.gradient-border-wrap:nth-child(2)::before { animation-delay: -0.8s, -3s; }
+.gradient-border-wrap:nth-child(3)::before { animation-delay: -1.6s, -6s; }
+.gradient-border-wrap:nth-child(4)::before { animation-delay: -2.4s, -9s; }
+.gradient-border-wrap:nth-child(5)::before { animation-delay: -3.2s, -12s; }
+.gradient-border-wrap:nth-child(6)::before { animation-delay: -0.4s, -2s; }
+.gradient-border-wrap:nth-child(7)::before { animation-delay: -1.2s, -5s; }
+.gradient-border-wrap:nth-child(8)::before { animation-delay: -2.0s, -8s; }
 
 @keyframes rotateBorder {
   to { transform: rotate(360deg); }
 }
+@keyframes borderColors {
+  0%, 100% { --ba1: #FF504E; --ba2: #FF8A65; }
+  33%       { --ba1: #FF8A65; --ba2: #FF504E; }
+  66%       { --ba1: #FF504E; --ba2: #2A2D3D; }
+}
 
 /* ── Dot grid ── */
+@property --dot-color {
+  syntax: '<color>';
+  initial-value: rgba(255,255,255,0.15);
+  inherits: false;
+}
 .dot-grid {
-  background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
   background-size: 20px 20px;
+  animation: dotColors 16s ease-in-out infinite -8s;
 }
 
 /* ── Dark radial mask ── */

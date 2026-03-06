@@ -25,8 +25,8 @@ export default function ValueProp() {
   return (
     <section ref={sectionRef} className="py-24 lg:py-32">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8 text-center">
-        <p className="vp-item text-xs font-semibold tracking-widest uppercase text-[#e63030] mb-3">Why LIGR</p>
-        <h2 className="vp-item text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">
+        <p className="vp-item text-xs font-semibold tracking-widest text-[#e63030] mb-3">Why LIGR</p>
+        <h2 className="vp-item text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
           Set it. Forget it. Broadcast it.
         </h2>
         <p className="vp-item text-base lg:text-lg text-[#9ea3b0] max-w-2xl mx-auto leading-relaxed mb-16">

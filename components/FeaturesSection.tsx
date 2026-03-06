@@ -472,7 +472,7 @@ export default function FeaturesSection() {
   }, []);
 
   return (
-    <section ref={ref} className="py-24" style={{ overflow: "clip" }}>
+    <section ref={ref} className="py-12 md:py-24" style={{ overflow: "clip" }}>
       <div className="max-w-[1280px] mx-auto px-4 md:px-8">
 
         {/* Desktop: scrolling left column + sticky right panel that matches active card height */}
@@ -538,7 +538,7 @@ export default function FeaturesSection() {
         </div>
 
         {/* Mobile: stacked */}
-        <div className="md:hidden flex flex-col gap-12">
+        <div className="md:hidden flex flex-col gap-12 px-6">
           {features.map((feat, i) => {
             const Panel = PANELS[i];
             return (

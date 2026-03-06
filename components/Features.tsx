@@ -77,8 +77,8 @@ export default function Features() {
     <section ref={sectionRef} className="py-24 lg:py-32 relative">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
         <div className="text-center mb-12">
-          <p className="features-title text-xs font-semibold tracking-widest uppercase text-[#e63030] mb-3">Features</p>
-          <h2 className="features-title text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight">
+          <p className="features-title text-xs font-semibold tracking-widest text-[#e63030] mb-3">Features</p>
+          <h2 className="features-title text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
             Everything you need to go live.
           </h2>
         </div>
@@ -103,7 +103,7 @@ export default function Features() {
         {/* Content */}
         <div ref={contentRef} className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h3 className="text-2xl lg:text-3xl font-black mb-4 leading-snug">
+            <h3 className="text-2xl lg:text-3xl font-bold mb-4 leading-snug">
               {tabs[active].heading}
             </h3>
             <p className="text-[#9ea3b0] text-base lg:text-lg leading-relaxed mb-8">

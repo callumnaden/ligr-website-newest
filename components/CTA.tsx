@@ -23,26 +23,19 @@ export default function CTA() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-6 px-6 lg:px-8">
+    <section ref={sectionRef} className="py-12 px-4 md:px-6 lg:px-8">
       <div className="max-w-[1280px] mx-auto">
-        <div className="gradient-wave rounded-2xl lg:rounded-3xl px-8 py-16 lg:py-20 text-center relative overflow-hidden">
-          {/* Noise texture overlay */}
-          <div
-            className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-            }}
-          />
-
-          {/* Glow spots */}
-          <div className="absolute top-0 left-1/4 w-[300px] h-[200px] bg-white/10 rounded-full blur-[80px] pointer-events-none" />
-          <div className="absolute bottom-0 right-1/4 w-[300px] h-[200px] bg-black/20 rounded-full blur-[80px] pointer-events-none" />
+        <div className="rounded-2xl lg:rounded-3xl px-6 py-10 md:px-8 md:py-16 lg:py-20 text-center relative overflow-hidden" style={{ background: '#2A2D3D' }}>
+          <div className="mesh-blob mesh-blob-1" />
+          <div className="mesh-blob mesh-blob-2" />
+          <div className="mesh-blob mesh-blob-3" />
+          <div className="absolute inset-0 dot-grid pointer-events-none" />
 
           <div className="relative z-10">
-            <p className="cta-content text-white/70 text-sm font-semibold tracking-widest uppercase mb-4">
+            <p className="cta-content text-white/70 text-sm font-semibold tracking-widest mb-4">
               Get started today
             </p>
-            <h2 className="cta-content text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-white tracking-tight mb-4 leading-tight">
+            <h2 className="cta-content text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white tracking-tight mb-4 leading-tight">
               Ready to elevate your
               <br />
               sports broadcast?

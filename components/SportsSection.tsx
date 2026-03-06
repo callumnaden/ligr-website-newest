@@ -587,8 +587,8 @@ function SportCard({ name, desc, Illus }: SportConfig) {
         style={{
           position: "absolute",
           inset: "-50%",
-          background: "conic-gradient(from 0deg, #13161B 0%, #13161B 35%, #FF504E 50%, #13161B 65%, #13161B 100%)",
-          animation: "rotateBorder 4s linear infinite",
+          background: "conic-gradient(from 0deg, #2A2D3D 0%, #2A2D3D 28%, #FF504E 42%, #FF8A65 50%, #FF504E 58%, #2A2D3D 72%, #2A2D3D 100%)",
+          animation: "rotateBorder 4s linear infinite, borderColors 16s ease-in-out infinite",
           zIndex: 0,
         }}
       />
@@ -622,11 +622,11 @@ export default function SportsSection() {
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <div className="pt-[72px] md:pt-20">
-        <div className="max-w-[1280px] mx-auto px-4 md:px-8 pt-16 md:pt-24 pb-12 md:pb-16">
+      <div className="pt-[72px] md:pt-20 px-4 md:px-6">
+        <div className="max-w-[1280px] mx-auto px-6 md:px-8 pt-16 md:pt-24 pb-12 md:pb-16">
           <p className="text-base font-semibold text-[#CECFD2] mb-4">Sports</p>
           <h1
-            className="text-[40px] md:text-[60px] font-bold leading-[1.2] tracking-[-0.02em] mb-6"
+            className="text-[36px] md:text-[72px] font-extrabold italic uppercase leading-none mb-6 font-[family-name:var(--font-roboto-condensed)]"
             style={{
               background: "linear-gradient(135deg, #FF504E 0%, #FF8A65 100%)",
               WebkitBackgroundClip: "text",
@@ -647,7 +647,7 @@ export default function SportsSection() {
       </div>
 
       {/* ── Horizontal scroll cards ───────────────────────────────────────── */}
-      <div className="pb-4 md:pb-6">
+      <div className="pb-4 md:pb-6 overflow-x-hidden">
         <div className="relative">
           <div
             className="sports-scroll overflow-x-auto"
@@ -677,7 +677,7 @@ export default function SportsSection() {
         </div>
 
         {/* Scroll hint */}
-        <div className="flex max-w-[1280px] mx-auto md:px-8 items-left justify-center gap-2 mt-4 mb-2">
+        <div className="flex max-w-[1280px] mx-auto px-6 md:px-8 items-left justify-center gap-2 mt-4 mb-2">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path
               d="M10 12L6 8l4-4"
@@ -704,7 +704,7 @@ export default function SportsSection() {
 
       {/* ── Every sport includes ──────────────────────────────────────────── */}
       <section className="py-16 md:py-24 px-4 md:px-6">
-        <div className="max-w-[1280px] mx-auto md:px-8">
+        <div className="max-w-[1280px] mx-auto px-6 md:px-8">
           <div className="mb-10 md:mb-14">
             <p className="text-base font-semibold text-[#94979C] mb-3">
               What&apos;s included
@@ -776,9 +776,11 @@ export default function SportsSection() {
       {/* ── CTA ──────────────────────────────────────────────────────────── */}
       <section className="px-4 md:px-6 pb-4 md:pb-6">
         <div className="max-w-[1920px] mx-auto">
-          <div className="gradient-card rounded-2xl relative overflow-hidden">
+          <div className="rounded-2xl relative overflow-hidden" style={{ background: '#2A2D3D' }}>
+            <div className="mesh-blob mesh-blob-1" />
+            <div className="mesh-blob mesh-blob-2" />
+            <div className="mesh-blob mesh-blob-3" />
             <div className="absolute inset-0 dot-grid pointer-events-none" />
-            <div className="absolute inset-0 radial-mask pointer-events-none" />
             <div className="relative z-10 max-w-[1280px] mx-auto px-6 md:px-8 py-10 md:py-16">
               <div className="max-w-[768px]">
                 <h2 className="text-[30px] md:text-[36px] font-bold leading-[38px] md:leading-[44px] tracking-[-0.02em] text-[#F7F7F7] mb-5">

@@ -31,13 +31,13 @@ export default function CTASection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="px-4 md:px-6 pb-4 md:pb-6">
+    <section ref={sectionRef} className="px-4 md:px-6 py-12 md:pb-6">
       <div className="max-w-[1920px] mx-auto">
-        <div className="gradient-card rounded-2xl relative overflow-hidden">
-          {/* Dot grid */}
+        <div className="rounded-2xl relative overflow-hidden" style={{ background: '#2A2D3D' }}>
+          <div className="mesh-blob mesh-blob-1" />
+          <div className="mesh-blob mesh-blob-2" />
+          <div className="mesh-blob mesh-blob-3" />
           <div className="absolute inset-0 dot-grid pointer-events-none" />
-          {/* Radial mask */}
-          <div className="absolute inset-0 radial-mask pointer-events-none" />
 
           {/* Content */}
           <div className="relative z-10 max-w-[1280px] mx-auto px-6 md:px-8 py-10 md:py-16">

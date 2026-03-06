@@ -43,12 +43,13 @@ export default function FeatureDetailHero({ feature }: { feature: FeatureDetail 
   return (
     <div ref={ref} className="pt-[72px] md:pt-20 px-4 md:px-6 pb-6 flex flex-col" style={{ minHeight: "100svh" }}>
       <div className="max-w-[1728px] mx-auto flex-1 flex flex-col w-full">
-        {/* Gradient card — static gradient from feature color to dark */}
         <div
           className="relative overflow-hidden rounded-2xl flex-1 flex flex-col"
-          style={{ background: `linear-gradient(133deg, ${feature.color} 0%, #2A2D3D 100%)` }}
+          style={{ background: '#2A2D3D' }}
         >
-          {/* Dot grid overlay */}
+          <div className="mesh-blob mesh-blob-1" />
+          <div className="mesh-blob mesh-blob-2" />
+          <div className="mesh-blob mesh-blob-3" />
           <div className="absolute inset-0 pointer-events-none dot-grid" />
 
           {/* Content */}
@@ -71,8 +72,7 @@ export default function FeatureDetailHero({ feature }: { feature: FeatureDetail 
                 {/* Heading */}
                 <div className="flex flex-col gap-3">
                   <h1
-                    className="fdh-heading font-bold text-[#F7F7F7] leading-[1.1]"
-                    style={{ fontSize: "clamp(48px, 6vw, 60px)", letterSpacing: "-1.2px" }}
+                    className="fdh-heading text-[36px] md:text-[72px] font-extrabold italic uppercase leading-none text-[#F7F7F7] font-[family-name:var(--font-roboto-condensed)]"
                   >
                     {feature.name}
                   </h1>

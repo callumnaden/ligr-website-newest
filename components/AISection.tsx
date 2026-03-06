@@ -90,10 +90,10 @@ export default function AISection() {
 
           {/* Text */}
           <div className="order-1 lg:order-2">
-            <span className="ai-content inline-block text-xs font-semibold tracking-widest uppercase text-[#e63030] mb-3">
+            <span className="ai-content inline-block text-xs font-semibold tracking-widest text-[#e63030] mb-3">
               AI Powered
             </span>
-            <h2 className="ai-content text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-6 leading-snug">
+            <h2 className="ai-content text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6 leading-snug">
               AI Graphics that
               <br />
               <span className="gradient-wave bg-clip-text text-transparent">think like a designer.</span>

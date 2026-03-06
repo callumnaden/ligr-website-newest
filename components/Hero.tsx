@@ -71,11 +71,13 @@ export default function Hero() {
     >
       <div className="max-w-[1920px] mx-auto w-full flex-1 flex flex-col">
         {/* Gradient card */}
-        <div className="gradient-card rounded-2xl relative overflow-hidden flex flex-col flex-1">
+        <div className="rounded-2xl relative overflow-hidden flex flex-col flex-1" style={{ background: '#2A2D3D' }}>
+          <div className="mesh-blob mesh-blob-1" />
+          <div className="mesh-blob mesh-blob-2" />
+          <div className="mesh-blob mesh-blob-3" />
           <div className="absolute inset-0 dot-grid pointer-events-none" />
-          <div className="absolute inset-0 radial-mask pointer-events-none" />
 
-          <div className="relative z-10 flex-1 max-w-[1280px] w-full mx-auto px-4 md:px-8 pt-10 md:pt-16 pb-10 md:pb-16 flex flex-col">
+          <div className="relative z-10 flex-1 max-w-[1280px] w-full mx-auto px-6 md:px-8 pt-10 md:pt-16 pb-10 md:pb-16 flex flex-col">
             {expanded ? (
               /* ── Expanded layout ── */
               <div className="flex flex-col gap-12">
@@ -93,7 +95,7 @@ export default function Hero() {
                         </svg>
                       </span>
                     </div>
-                    <h1 className="text-[36px] md:text-5xl lg:text-[60px] font-bold leading-[44px] md:leading-[1.2] lg:leading-[72px] tracking-[-0.02em] text-[#F7F7F7]">
+                    <h1 className="text-[36px] md:text-[72px] font-extrabold italic uppercase leading-none text-[#F7F7F7] font-[family-name:var(--font-roboto-condensed)]">
                       Broadcast-quality sports production for everyone.
                     </h1>
                   </div>
@@ -146,7 +148,7 @@ export default function Hero() {
                         </svg>
                       </span>
                     </div>
-                    <h1 className="h-heading text-[36px] md:text-5xl lg:text-[60px] font-bold leading-[44px] md:leading-[1.2] lg:leading-[72px] tracking-[-0.02em] text-[#F7F7F7]">
+                    <h1 className="h-heading text-[36px] md:text-[72px] font-extrabold italic uppercase leading-none text-[#F7F7F7] font-[family-name:var(--font-roboto-condensed)]">
                       Broadcast-quality sports production for everyone.
                     </h1>
                   </div>

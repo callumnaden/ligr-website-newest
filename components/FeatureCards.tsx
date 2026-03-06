@@ -58,10 +58,10 @@ export default function FeatureCards() {
           >
             {/* Text */}
             <div>
-              <span className="inline-block text-xs font-semibold tracking-widest uppercase text-[#e63030] mb-3">
+              <span className="inline-block text-xs font-semibold tracking-widest text-[#e63030] mb-3">
                 {card.tag}
               </span>
-              <h3 className="text-2xl lg:text-3xl font-black mb-4 leading-snug">{card.title}</h3>
+              <h3 className="text-2xl lg:text-3xl font-bold mb-4 leading-snug">{card.title}</h3>
               <p className="text-[#9ea3b0] text-base leading-relaxed mb-8">{card.desc}</p>
               <a
                 href="#"

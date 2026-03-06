@@ -48,8 +48,8 @@ export default function Steps() {
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <p className="step-item text-xs font-semibold tracking-widest uppercase text-[#e63030] mb-3">How it works</p>
-            <h2 className="step-item text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-4">
+            <p className="step-item text-xs font-semibold tracking-widest text-[#e63030] mb-3">How it works</p>
+            <h2 className="step-item text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
               Live in 3 steps.
             </h2>
             <p className="step-item text-base text-[#9ea3b0] leading-relaxed max-w-md">

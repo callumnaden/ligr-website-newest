@@ -21,31 +21,37 @@ const tabContent = [
     heading: "Set it. Forget it. Broadcast it.",
     body: "Set it and forget it. LIGR connects to live data feeds and runs your entire production — graphics, scores, clocks — without a single operator.",
     cta: "Get started with Full Automation",
+    slug: "full-automation",
   },
   {
     heading: "Stream anywhere, instantly.",
     body: "Push your broadcast to YouTube, Facebook, Twitch, or any RTMP destination simultaneously — no encoder required.",
     cta: "Explore Cloud Streaming",
+    slug: "cloud-streaming",
   },
   {
     heading: "Design your broadcast visually.",
     body: "Fuse is LIGR's visual theme builder. Drag and drop broadcast components, bind live data, and preview everything in real time.",
     cta: "Try Fuse Theme Builder",
+    slug: "fuse",
   },
   {
     heading: "AI graphics in seconds.",
     body: "Describe your vision in plain English and watch LIGR generate broadcast-ready overlays in seconds — powered by Claude AI.",
     cta: "Explore AI Graphics",
+    slug: "ai-graphics",
   },
   {
     heading: "Turn broadcasts into revenue.",
     body: "Sell sponsorships, run pre-roll ads, and display sponsor overlays — all automated and integrated into your live stream.",
     cta: "Explore Revenue & Ads",
+    slug: "revenue-ads",
   },
   {
     heading: "Motion graphics that move.",
     body: "Embed Rive animations directly into your broadcast overlays for smooth, interactive, data-driven motion graphics.",
     cta: "See Rive Animations",
+    slug: "rive-animations",
   },
 ];
 
@@ -72,7 +78,7 @@ export default function FeaturesTabbed() {
 
   return (
     <section ref={ref} className="py-12 md:py-24 px-4 md:px-6">
-      <div className="max-w-[1280px] mx-auto md:px-8">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-8">
         {/* Header */}
         <div className="ft-intro max-w-[768px] mb-8 flex flex-col gap-3">
           <p className="text-base font-semibold text-[#94979c]">Platform</p>
@@ -120,7 +126,7 @@ export default function FeaturesTabbed() {
           <p className="text-xl font-normal text-[#94979c] leading-[30px] mb-6">
             {tabContent[active].body}
           </p>
-          <a href="#" className="inline-flex items-center gap-1.5 text-base font-semibold text-[#FF504E] hover:opacity-80 transition-opacity">
+          <a href={`/features/${tabContent[active].slug}`} className="inline-flex items-center gap-1.5 text-base font-semibold text-[#FF504E] hover:opacity-80 transition-opacity">
             {tabContent[active].cta}
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M4 10h12M12 6l4 4-4 4" stroke="#FF8A65" strokeWidth="1.667" strokeLinecap="round" strokeLinejoin="round" />

@@ -35,7 +35,7 @@ export default function BlogPostSection({ post, content }: Props) {
 
             {/* Heading */}
             <h1
-              className="text-[44px] md:text-[56px] lg:text-[60px] font-bold leading-[1.1] tracking-[-0.02em]"
+              className="text-[36px] md:text-[72px] font-extrabold italic uppercase leading-none font-[family-name:var(--font-roboto-condensed)]"
               style={{
                 background: "linear-gradient(165deg, #FF504E 0%, #FF8A65 100%)",
                 WebkitBackgroundClip: "text",

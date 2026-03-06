@@ -36,8 +36,8 @@ export default function Metrics() {
   }, []);
 
   return (
-    <section ref={ref} className="py-16 md:py-24 px-4 md:px-6">
-      <div className="max-w-[1280px] mx-auto md:px-8">
+    <section ref={ref} className="py-12 md:py-24 px-4 md:px-6">
+      <div className="max-w-[1280px] mx-auto px-6 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-4">
           {metrics.map((m, i) => (
             <div key={i} className="metric-wrap flex flex-col items-center gap-3">

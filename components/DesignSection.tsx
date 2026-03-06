@@ -36,10 +36,10 @@ export default function DesignSection() {
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <span className="ds-item inline-block text-xs font-semibold tracking-widest uppercase text-[#e63030] mb-3">
+            <span className="ds-item inline-block text-xs font-semibold tracking-widest text-[#e63030] mb-3">
               Design Studio
             </span>
-            <h2 className="ds-item text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-6 leading-snug">
+            <h2 className="ds-item text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6 leading-snug">
               Design without limits.
             </h2>
             <p className="ds-item text-base lg:text-lg text-[#9ea3b0] leading-relaxed mb-10">
