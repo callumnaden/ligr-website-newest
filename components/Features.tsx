@@ -109,8 +109,8 @@ export default function Features() {
         </div>
 
         {/* Content */}
-        <div ref={contentRef} className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div ref={contentRef}>
             <h3 className="text-2xl lg:text-3xl font-bold mb-4 leading-snug">
               {tabs[active].heading}
             </h3>
