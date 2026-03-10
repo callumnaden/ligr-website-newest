@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import DashboardMockup from "./DashboardMockup";
+import FuseAnimPanel from "./FuseAnimPanel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -121,7 +122,9 @@ export default function AIDesignSection() {
 
           {/* Right: Mockup */}
           <div className="fuse-mockup flex-1 min-w-0">
-            <DashboardMockup className="rounded-xl overflow-hidden" />
+            <div className="rounded-xl overflow-hidden" style={{ aspectRatio: "3/2" }}>
+              <FuseAnimPanel />
+            </div>
           </div>
         </div>
 
