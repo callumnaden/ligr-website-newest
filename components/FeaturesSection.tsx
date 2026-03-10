@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AutomationAnimPanel from "./AutomationAnimPanel";
 import FuseAnimPanel from "./FuseAnimPanel";
+import AIGraphicsAnimPanel from "./AIGraphicsAnimPanel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -328,7 +329,7 @@ function RivePanel() {
   );
 }
 
-const PANELS = [FuseAnimPanel, AIGraphicsPanel, AutomationAnimPanel, StreamingPanel, RevenuePanel, RivePanel];
+const PANELS = [FuseAnimPanel, AIGraphicsAnimPanel, AutomationAnimPanel, StreamingPanel, RevenuePanel, RivePanel];
 
 /* ── Feature data ────────────────────────────────────────── */
 const features = [

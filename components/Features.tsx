@@ -2,7 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { AIGraphicsPanel, StreamingPanel, RevenuePanel } from "./FeaturesSection";
+import { StreamingPanel, RevenuePanel } from "./FeaturesSection";
+import AIGraphicsAnimPanel from "./AIGraphicsAnimPanel";
 import AutomationAnimPanel from "./AutomationAnimPanel";
 import FuseAnimPanel from "./FuseAnimPanel";
 
@@ -35,7 +36,7 @@ const tabs = [
     heading: "Graphics that design themselves.",
     desc: "Our AI analyses your sport, your brand, and the match context to generate broadcast-quality graphics automatically.",
     features: ["Auto graphic generation", "Brand-aware AI", "Zero design skills needed"],
-    Panel: AIGraphicsPanel,
+    Panel: AIGraphicsAnimPanel,
   },
   {
     label: "Non-Athletes",

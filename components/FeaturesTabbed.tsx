@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import DashboardMockup from "./DashboardMockup";
 import AutomationAnimPanel from "./AutomationAnimPanel";
 import FuseAnimPanel from "./FuseAnimPanel";
+import AIGraphicsAnimPanel from "./AIGraphicsAnimPanel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -117,7 +118,10 @@ export default function FeaturesTabbed() {
           <div className="absolute inset-0" style={{ opacity: active === 2 ? 1 : 0, transition: "opacity 0.3s", pointerEvents: active === 2 ? "auto" : "none" }}>
             <FuseAnimPanel />
           </div>
-          <div className="absolute inset-0" style={{ opacity: active !== 0 && active !== 2 ? 1 : 0, transition: "opacity 0.3s", pointerEvents: active !== 0 && active !== 2 ? "auto" : "none" }}>
+          <div className="absolute inset-0" style={{ opacity: active === 3 ? 1 : 0, transition: "opacity 0.3s", pointerEvents: active === 3 ? "auto" : "none" }}>
+            <AIGraphicsAnimPanel />
+          </div>
+          <div className="absolute inset-0" style={{ opacity: active !== 0 && active !== 2 && active !== 3 ? 1 : 0, transition: "opacity 0.3s", pointerEvents: active !== 0 && active !== 2 && active !== 3 ? "auto" : "none" }}>
             <DashboardMockup className="h-full" />
           </div>
         </div>

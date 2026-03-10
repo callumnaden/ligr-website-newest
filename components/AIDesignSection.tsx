@@ -2,8 +2,8 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import DashboardMockup from "./DashboardMockup";
 import FuseAnimPanel from "./FuseAnimPanel";
+import AIGraphicsAnimPanel from "./AIGraphicsAnimPanel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -54,7 +54,9 @@ export default function AIDesignSection() {
         <div className="flex flex-col-reverse lg:flex-row gap-16 items-center">
           {/* Left: Mockup */}
           <div className="ai-mockup flex-1 min-w-0">
-            <DashboardMockup className="rounded-xl overflow-hidden" />
+            <div className="rounded-xl overflow-hidden" style={{ aspectRatio: "3/2" }}>
+              <AIGraphicsAnimPanel />
+            </div>
           </div>
 
           {/* Right: Text */}
