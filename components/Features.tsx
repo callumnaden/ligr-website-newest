@@ -2,8 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FusePanel, AIGraphicsPanel, StreamingPanel, RevenuePanel } from "./FeaturesSection";
-import AutomationAnimPanel from "./AutomationAnimPanel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,35 +11,30 @@ const tabs = [
     heading: "Make every game feel like a major event.",
     desc: "Customise your broadcast with your team colours, logos, and branding. LIGR makes community sport look like prime time television.",
     features: ["Custom branding per team", "Automated lower thirds", "Real-time stat overlays"],
-    Panel: FusePanel,
   },
   {
     label: "Scoring Platform",
     heading: "One platform for every sport you run.",
     desc: "Manage scores, stats, and timing from a single dashboard — works across multiple sports and multiple events simultaneously.",
     features: ["Multi-sport support", "Live stat sync", "Referee & scorer tools"],
-    Panel: AutomationAnimPanel,
   },
   {
     label: "Free Scoreboard",
     heading: "Beautiful scoreboards, zero cost.",
     desc: "Every LIGR customer gets a free embeddable scoreboard they can put on their website, social feeds, or venue screens.",
     features: ["Embeddable anywhere", "Auto-updating", "Custom colours"],
-    Panel: StreamingPanel,
   },
   {
     label: "AI Enabled",
     heading: "Graphics that design themselves.",
     desc: "Our AI analyses your sport, your brand, and the match context to generate broadcast-quality graphics automatically.",
     features: ["Auto graphic generation", "Brand-aware AI", "Zero design skills needed"],
-    Panel: AIGraphicsPanel,
   },
   {
     label: "Non-Athletes",
     heading: "Built for the people who run sport.",
     desc: "Volunteers, admins, and parents can run professional broadcasts — no technical experience required.",
     features: ["One-click setup", "Guided workflows", "24/7 support"],
-    Panel: RevenuePanel,
   },
 ];
 
@@ -139,8 +132,10 @@ export default function Features() {
           {/* Mockup */}
           <div className="relative">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse,rgba(230,48,48,0.15)_0%,transparent_65%)] blur-2xl" />
-            <div className="relative card-border rounded-2xl overflow-hidden shadow-[0_24px_60px_rgba(0,0,0,0.4)]" style={{ aspectRatio: "3/2" }}>
-              {(() => { const { Panel } = tabs[active]; return <Panel />; })()}
+            <div className="relative border border-[#22262f] bg-[#0c0e12] rounded-[24px] p-1 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.6)]">
+              <div className="rounded-[18px] overflow-hidden">
+                <img src="/features-hero.jpg" alt="LIGR platform" className="w-full h-auto block" />
+              </div>
             </div>
           </div>
         </div>
