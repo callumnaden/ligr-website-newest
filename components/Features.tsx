@@ -2,8 +2,9 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FusePanel, AIGraphicsPanel, StreamingPanel, RevenuePanel } from "./FeaturesSection";
+import { AIGraphicsPanel, StreamingPanel, RevenuePanel } from "./FeaturesSection";
 import AutomationAnimPanel from "./AutomationAnimPanel";
+import FuseAnimPanel from "./FuseAnimPanel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,7 +14,7 @@ const tabs = [
     heading: "Make every game feel like a major event.",
     desc: "Customise your broadcast with your team colours, logos, and branding. LIGR makes community sport look like prime time television.",
     features: ["Custom branding per team", "Automated lower thirds", "Real-time stat overlays"],
-    Panel: FusePanel,
+    Panel: FuseAnimPanel,
   },
   {
     label: "Scoring Platform",

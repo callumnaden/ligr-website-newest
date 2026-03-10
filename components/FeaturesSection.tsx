@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AutomationAnimPanel from "./AutomationAnimPanel";
+import FuseAnimPanel from "./FuseAnimPanel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -327,7 +328,7 @@ function RivePanel() {
   );
 }
 
-const PANELS = [FusePanel, AIGraphicsPanel, AutomationAnimPanel, StreamingPanel, RevenuePanel, RivePanel];
+const PANELS = [FuseAnimPanel, AIGraphicsPanel, AutomationAnimPanel, StreamingPanel, RevenuePanel, RivePanel];
 
 /* ── Feature data ────────────────────────────────────────── */
 const features = [
