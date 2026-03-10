@@ -2,10 +2,10 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import DashboardMockup from "./DashboardMockup";
 import AutomationAnimPanel from "./AutomationAnimPanel";
 import FuseAnimPanel from "./FuseAnimPanel";
 import AIGraphicsAnimPanel from "./AIGraphicsAnimPanel";
+import { StreamingPanel, RevenuePanel, RivePanel } from "./FeaturesSection";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -112,18 +112,11 @@ export default function FeaturesTabbed() {
 
         {/* Dashboard mockup / animated panel */}
         <div className="relative rounded-xl overflow-hidden mb-10 float shadow-[0_24px_48px_rgba(0,0,0,0.4)]" style={{ aspectRatio: "16/9", minHeight: 320 }}>
-          <div className="absolute inset-0" style={{ opacity: active === 0 ? 1 : 0, transition: "opacity 0.3s", pointerEvents: active === 0 ? "auto" : "none" }}>
-            <AutomationAnimPanel />
-          </div>
-          <div className="absolute inset-0" style={{ opacity: active === 2 ? 1 : 0, transition: "opacity 0.3s", pointerEvents: active === 2 ? "auto" : "none" }}>
-            <FuseAnimPanel />
-          </div>
-          <div className="absolute inset-0" style={{ opacity: active === 3 ? 1 : 0, transition: "opacity 0.3s", pointerEvents: active === 3 ? "auto" : "none" }}>
-            <AIGraphicsAnimPanel />
-          </div>
-          <div className="absolute inset-0" style={{ opacity: active !== 0 && active !== 2 && active !== 3 ? 1 : 0, transition: "opacity 0.3s", pointerEvents: active !== 0 && active !== 2 && active !== 3 ? "auto" : "none" }}>
-            <DashboardMockup className="h-full" />
-          </div>
+          {[AutomationAnimPanel, StreamingPanel, FuseAnimPanel, AIGraphicsAnimPanel, RevenuePanel, RivePanel].map((Panel, i) => (
+            <div key={i} className="absolute inset-0" style={{ opacity: active === i ? 1 : 0, transition: "opacity 0.3s", pointerEvents: active === i ? "auto" : "none" }}>
+              <Panel />
+            </div>
+          ))}
         </div>
 
         {/* Content below mockup */}

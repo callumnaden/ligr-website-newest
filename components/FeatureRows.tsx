@@ -14,6 +14,20 @@ const steps = [
 // ── Coded Illustrations ──────────────────────────────────────────────────────
 
 function DesignIllustration() {
+  const [score, setScore] = useState(26);
+  const [scoreFlash, setScoreFlash] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setScoreFlash(true);
+      setTimeout(() => {
+        setScore((s) => s + 1);
+        setTimeout(() => setScoreFlash(false), 300);
+      }, 200);
+    }, 3500);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div
       className="w-full rounded-xl overflow-hidden border border-[#22262F]"
@@ -28,7 +42,7 @@ function DesignIllustration() {
         </div>
         <span style={{ fontSize: 9, color: "#94979C", marginLeft: 6 }}>Fuse Theme Builder — NBA_Scorebug_v2.fuse</span>
         <div style={{ marginLeft: "auto", display: "flex", gap: 6 }}>
-          <div style={{ fontSize: 8, background: "rgba(255,80,78,0.15)", color: "#FF504E", padding: "2px 8px", borderRadius: 4, fontWeight: 600 }}>✦ AI Generate</div>
+          <div style={{ fontSize: 8, background: "rgba(255,80,78,0.15)", color: "#FF504E", padding: "2px 8px", borderRadius: 4, fontWeight: 600, animation: "aiBadgePulse 2s ease-in-out infinite" }}>✦ AI Generate</div>
           <div style={{ fontSize: 8, background: "#22262F", color: "#94979C", padding: "2px 8px", borderRadius: 4 }}>Preview</div>
           <div style={{ fontSize: 8, background: "#FF504E", color: "white", padding: "2px 8px", borderRadius: 4, fontWeight: 600 }}>Publish</div>
         </div>
@@ -49,7 +63,7 @@ function DesignIllustration() {
           <div style={{ position: "relative", zIndex: 10, background: "#FF504E", borderRadius: 6, padding: "8px 16px", display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
               <div style={{ fontSize: 7, color: "rgba(255,255,255,0.7)", textTransform: "uppercase" }}>Lakers</div>
-              <div style={{ fontSize: 18, fontWeight: 700, color: "white", lineHeight: 1 }}>26</div>
+              <div style={{ fontSize: 18, fontWeight: 700, color: scoreFlash ? "#FEBC2E" : "white", lineHeight: 1, transition: "color 0.15s" }}>{score}</div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
               <div style={{ fontSize: 7, color: "rgba(255,255,255,0.6)" }}>Q3</div>
@@ -90,11 +104,39 @@ function DesignIllustration() {
           </div>
         </div>
       </div>
+      <style>{`@keyframes aiBadgePulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }`}</style>
     </div>
   );
 }
 
+const LOG_POOL = [
+  { time: "14:32:01", event: "Score updated", detail: "Lakers 24 → 26", color: "#FF504E" },
+  { time: "14:31:55", event: "Graphic triggered", detail: "Score Bug displayed", color: "#FF8A65" },
+  { time: "14:31:48", event: "Team logo loaded", detail: "CelticsPrimary.png", color: "#94979C" },
+  { time: "14:31:44", event: "Clock synced", detail: "Q3 · 7:15 remaining", color: "#28C840" },
+  { time: "14:31:38", event: "Feed heartbeat", detail: "SportsRadar API OK", color: "#373A41" },
+  { time: "14:31:30", event: "Automation rule fired", detail: "Quarter change → banner", color: "#9C88FF" },
+  { time: "14:33:12", event: "Score updated", detail: "Lakers 26 → 28", color: "#FF504E" },
+  { time: "14:33:08", event: "Player card triggered", detail: "James, LeBron (LAL)", color: "#FF8A65" },
+  { time: "14:32:55", event: "Clock synced", detail: "Q3 · 5:42 remaining", color: "#28C840" },
+  { time: "14:32:48", event: "Feed heartbeat", detail: "ESPN Feed OK", color: "#373A41" },
+];
+
 function ConnectIllustration() {
+  const [logEntries, setLogEntries] = useState(LOG_POOL.slice(0, 6));
+  const poolIndexRef = useRef(6);
+  const [newestKey, setNewestKey] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const next = LOG_POOL[poolIndexRef.current % LOG_POOL.length];
+      poolIndexRef.current++;
+      setNewestKey((k) => k + 1);
+      setLogEntries((prev) => [next, ...prev.slice(0, 5)]);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div
       className="w-full rounded-xl overflow-hidden border border-[#22262F]"
@@ -151,23 +193,24 @@ function ConnectIllustration() {
           </div>
         </div>
         {/* Right: live event log */}
-        <div style={{ flex: 1, padding: "10px 12px", display: "flex", flexDirection: "column", gap: 5 }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ flex: 1, padding: "10px 12px", display: "flex", flexDirection: "column", gap: 5, overflow: "hidden" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
             <div style={{ fontSize: 7, color: "#94979C", textTransform: "uppercase", letterSpacing: 1 }}>Live Event Log</div>
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
               <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#FF504E" }} />
               <span style={{ fontSize: 7, color: "#FF504E", fontWeight: 600 }}>Live</span>
             </div>
           </div>
-          {[
-            { time: "14:32:01", event: "Score updated", detail: "Lakers 24 → 26", color: "#FF504E" },
-            { time: "14:31:55", event: "Graphic triggered", detail: "Score Bug displayed", color: "#FF8A65" },
-            { time: "14:31:48", event: "Team logo loaded", detail: "CelticsPrimary.png", color: "#94979C" },
-            { time: "14:31:44", event: "Clock synced", detail: "Q3 · 7:15 remaining", color: "#28C840" },
-            { time: "14:31:38", event: "Feed heartbeat", detail: "SportsRadar API OK", color: "#373A41" },
-            { time: "14:31:30", event: "Automation rule fired", detail: "Quarter change → banner", color: "#9C88FF" },
-          ].map((ev, i) => (
-            <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start", padding: "5px 8px", background: "#1A1D26", borderRadius: 4, borderLeft: `2px solid ${ev.color}` }}>
+          {logEntries.map((ev, i) => (
+            <div
+              key={`${newestKey}-${i}`}
+              style={{
+                display: "flex", gap: 8, alignItems: "flex-start",
+                padding: "5px 8px", background: "#1A1D26", borderRadius: 4,
+                borderLeft: `2px solid ${ev.color}`,
+                animation: i === 0 ? "logSlideIn 0.4s ease-out" : undefined,
+              }}
+            >
               <div style={{ fontSize: 7, color: "#94979C", flexShrink: 0, marginTop: 1, fontFamily: "monospace" }}>{ev.time}</div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: 8, color: "#CECFD2", fontWeight: 600 }}>{ev.event}</div>
@@ -177,11 +220,47 @@ function ConnectIllustration() {
           ))}
         </div>
       </div>
+      <style>{`@keyframes logSlideIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }`}</style>
     </div>
   );
 }
 
 function GoLiveIllustration() {
+  const [seconds, setSeconds] = useState(2 * 3600 + 14 * 60 + 33);
+  const [viewers, setViewers] = useState({ youtube: 1284, facebook: 847, twitch: 392 });
+
+  useEffect(() => {
+    const timer = setInterval(() => setSeconds((s) => s + 1), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const tick = setInterval(() => {
+      setViewers((v) => ({
+        youtube: Math.max(0, v.youtube + Math.floor(Math.random() * 7) - 2),
+        facebook: Math.max(0, v.facebook + Math.floor(Math.random() * 5) - 2),
+        twitch: Math.max(0, v.twitch + Math.floor(Math.random() * 5) - 2),
+      }));
+    }, 2500);
+    return () => clearInterval(tick);
+  }, []);
+
+  const fmt = (s: number) => {
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = s % 60;
+    return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+  };
+
+  const dests = [
+    { name: "YouTube Live", viewers: viewers.youtube.toLocaleString(), status: "Live", color: "#FF504E", quality: "1080p" },
+    { name: "Facebook Live", viewers: viewers.facebook.toLocaleString(), status: "Live", color: "#28C840", quality: "720p" },
+    { name: "Twitch", viewers: viewers.twitch.toLocaleString(), status: "Live", color: "#28C840", quality: "720p" },
+    { name: "Custom RTMP", viewers: "—", status: "Standby", color: "#FEBC2E", quality: "1080p" },
+  ];
+
+  const total = (viewers.youtube + viewers.facebook + viewers.twitch).toLocaleString();
+
   return (
     <div
       className="w-full rounded-xl overflow-hidden border border-[#22262F]"
@@ -200,7 +279,7 @@ function GoLiveIllustration() {
             <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#FF504E" }} />
             <span style={{ fontSize: 8, color: "#FF504E", fontWeight: 700 }}>LIVE</span>
           </div>
-          <span style={{ fontSize: 8, color: "#94979C", fontFamily: "monospace" }}>02:14:33</span>
+          <span style={{ fontSize: 8, color: "#94979C", fontFamily: "monospace" }}>{fmt(seconds)}</span>
         </div>
       </div>
       {/* Body */}
@@ -226,12 +305,7 @@ function GoLiveIllustration() {
         {/* Right: destinations */}
         <div style={{ width: "38%", borderLeft: "1px solid #22262F", padding: "10px 12px", display: "flex", flexDirection: "column", gap: 6 }}>
           <div style={{ fontSize: 7, color: "#94979C", textTransform: "uppercase", letterSpacing: 1 }}>Destinations</div>
-          {[
-            { name: "YouTube Live", viewers: "1,284", status: "Live", color: "#FF504E", quality: "1080p" },
-            { name: "Facebook Live", viewers: "847", status: "Live", color: "#28C840", quality: "720p" },
-            { name: "Twitch", viewers: "392", status: "Live", color: "#28C840", quality: "720p" },
-            { name: "Custom RTMP", viewers: "—", status: "Standby", color: "#FEBC2E", quality: "1080p" },
-          ].map((dest, i) => (
+          {dests.map((dest, i) => (
             <div key={i} style={{ background: "#1A1D26", border: "1px solid #22262F", borderRadius: 5, padding: "6px 8px" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 3 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
@@ -243,7 +317,7 @@ function GoLiveIllustration() {
               <div style={{ display: "flex", gap: 12 }}>
                 <div>
                   <div style={{ fontSize: 7, color: "#94979C" }}>Viewers</div>
-                  <div style={{ fontSize: 9, color: "#F7F7F7", fontWeight: 600 }}>{dest.viewers}</div>
+                  <div style={{ fontSize: 9, color: "#F7F7F7", fontWeight: 600, transition: "opacity 0.3s" }}>{dest.viewers}</div>
                 </div>
                 <div>
                   <div style={{ fontSize: 7, color: "#94979C" }}>Quality</div>
@@ -254,7 +328,7 @@ function GoLiveIllustration() {
           ))}
           <div style={{ marginTop: "auto", padding: "7px 10px", background: "rgba(255,80,78,0.08)", border: "1px solid rgba(255,80,78,0.2)", borderRadius: 5, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div style={{ fontSize: 8, color: "#94979C" }}>Total Viewers</div>
-            <div style={{ fontSize: 14, color: "#F7F7F7", fontWeight: 700 }}>2,523</div>
+            <div style={{ fontSize: 14, color: "#F7F7F7", fontWeight: 700 }}>{total}</div>
           </div>
         </div>
       </div>

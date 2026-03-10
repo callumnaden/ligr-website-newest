@@ -207,125 +207,205 @@ function AutomationPanel() {
 }
 
 export function StreamingPanel() {
-  const color = "#0BA5EC";
-  const destinations = [
-    { name: "YouTube", viewers: "1,842", health: 98, active: true },
-    { name: "Facebook", viewers: "634", health: 97, active: true },
-    { name: "Twitch", viewers: "291", health: 99, active: true },
-    { name: "RTMP Custom", viewers: "—", health: 0, active: false },
+  const [seconds, setSeconds] = useState(5077);
+  const [viewers, setViewers] = useState({ youtube: 1842, facebook: 634, twitch: 291 });
+
+  useEffect(() => {
+    const t = setInterval(() => setSeconds((s) => s + 1), 1000);
+    return () => clearInterval(t);
+  }, []);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setViewers((v) => ({
+        youtube: Math.max(0, v.youtube + Math.floor(Math.random() * 7) - 2),
+        facebook: Math.max(0, v.facebook + Math.floor(Math.random() * 5) - 2),
+        twitch: Math.max(0, v.twitch + Math.floor(Math.random() * 5) - 2),
+      }));
+    }, 2500);
+    return () => clearInterval(t);
+  }, []);
+
+  const fmt = (s: number) => {
+    const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+    return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+  };
+
+  const total = viewers.youtube + viewers.facebook + viewers.twitch;
+
+  const dests = [
+    { name: "YouTube Live", viewers: viewers.youtube, active: true, quality: "1080p60" },
+    { name: "Facebook Live", viewers: viewers.facebook, active: true, quality: "720p" },
+    { name: "Twitch", viewers: viewers.twitch, active: true, quality: "720p" },
+    { name: "Custom RTMP", viewers: 0, active: false, quality: "1080p" },
   ];
+
   return (
-    <AppShell color={color} label="Cloud Streaming">
-      <div className="flex flex-col h-full p-3 gap-3 bg-gray-50">
-        <div className="bg-white border border-gray-200 rounded-xl p-3 shadow-sm">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full animate-pulse" style={{ background: color }} /><span className="text-[10px] font-bold text-gray-900">LIVE · 01:24:37</span></div>
-            <span className="text-[9px] px-2 py-0.5 rounded-full font-medium" style={{ background: color + "15", color }}>HD 1080p60</span>
-          </div>
-          <div className="grid grid-cols-3 gap-2">
-            {[["2,767", "Total Viewers"], ["4.2 Mbps", "Bitrate"], ["99.8%", "Uptime"]].map(([v, l]) => (
-              <div key={l}><div className="text-sm font-black text-gray-900">{v}</div><div className="text-[9px] text-gray-400">{l}</div></div>
-            ))}
-          </div>
+    <div style={{ background: "#13161B", fontFamily: "system-ui,-apple-system,sans-serif", color: "#F7F7F7", fontSize: 11 }} className="relative w-full h-full overflow-hidden select-none flex flex-col">
+      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", borderBottom: "1px solid #22262F", background: "#1A1D26", flexShrink: 0 }}>
+        <div style={{ display: "flex", gap: 5 }}>
+          {["#FF5F57", "#FEBC2E", "#28C840"].map((c, i) => <div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: c }} />)}
         </div>
-        <div className="flex-1 flex flex-col gap-2">
-          <span className="text-[9px] font-semibold text-gray-400 uppercase tracking-wider">Destinations</span>
-          {destinations.map((d) => (
-            <div key={d.name} className="bg-white border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-3 shadow-sm">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style={{ background: d.active ? color + "18" : "#f3f4f6" }}>
-                <div className="w-3 h-3 rounded-sm" style={{ background: d.active ? color : "#d1d5db" }} />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] font-semibold text-gray-700">{d.name}</span>
-                  {d.active ? <span className="text-[9px] font-medium" style={{ color }}>{d.viewers} viewers</span> : <span className="text-[9px] text-gray-300">Not connected</span>}
-                </div>
-                {d.active && (<div className="h-1 bg-gray-100 rounded-full overflow-hidden"><div className="h-full rounded-full" style={{ width: `${d.health}%`, background: color }} /></div>)}
-              </div>
-              <div className={`w-2 h-2 rounded-full shrink-0 ${d.active ? "animate-pulse" : ""}`} style={{ background: d.active ? color : "#e5e7eb" }} />
+        <span style={{ fontSize: 9, color: "#94979C", marginLeft: 6 }}>LIGR — Cloud Streaming</span>
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 4, background: "rgba(255,80,78,0.12)", border: "1px solid rgba(255,80,78,0.3)", borderRadius: 4, padding: "2px 8px" }}>
+            <div style={{ width: 5, height: 5, borderRadius: "50%", background: "#FF504E" }} />
+            <span style={{ fontSize: 8, color: "#FF504E", fontWeight: 700 }}>LIVE</span>
+          </div>
+          <span style={{ fontSize: 8, color: "#94979C", fontFamily: "monospace" }}>{fmt(seconds)}</span>
+        </div>
+      </div>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "10px 12px", gap: 8, overflow: "hidden" }}>
+        <div style={{ display: "flex", gap: 8 }}>
+          {[{ label: "Total Viewers", value: total.toLocaleString() }, { label: "Bitrate", value: "4.2 Mbps" }, { label: "Uptime", value: "99.8%" }].map((s, i) => (
+            <div key={i} style={{ flex: 1, background: "#1A1D26", border: "1px solid #22262F", borderRadius: 6, padding: "6px 8px" }}>
+              <div style={{ fontSize: 7, color: "#94979C", marginBottom: 2 }}>{s.label}</div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#F7F7F7" }}>{s.value}</div>
             </div>
           ))}
         </div>
+        <div style={{ fontSize: 7, color: "#94979C", textTransform: "uppercase", letterSpacing: 1 }}>Destinations</div>
+        {dests.map((d, i) => (
+          <div key={i} style={{ background: "#1A1D26", border: "1px solid #22262F", borderRadius: 5, padding: "6px 8px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 3 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                <div style={{ width: 5, height: 5, borderRadius: "50%", background: d.active ? "#28C840" : "#FEBC2E" }} />
+                <div style={{ fontSize: 8, color: "#CECFD2", fontWeight: 600 }}>{d.name}</div>
+              </div>
+              <div style={{ fontSize: 7, color: d.active ? "#28C840" : "#FEBC2E", background: d.active ? "rgba(40,200,64,0.1)" : "rgba(254,188,46,0.1)", padding: "1px 5px", borderRadius: 3, fontWeight: 600 }}>{d.active ? "Live" : "Standby"}</div>
+            </div>
+            <div style={{ display: "flex", gap: 12 }}>
+              <div><div style={{ fontSize: 7, color: "#94979C" }}>Viewers</div><div style={{ fontSize: 9, color: "#F7F7F7", fontWeight: 600 }}>{d.viewers ? d.viewers.toLocaleString() : "—"}</div></div>
+              <div><div style={{ fontSize: 7, color: "#94979C" }}>Quality</div><div style={{ fontSize: 9, color: "#F7F7F7", fontWeight: 600 }}>{d.quality}</div></div>
+            </div>
+          </div>
+        ))}
       </div>
-    </AppShell>
+    </div>
   );
 }
 
 export function RevenuePanel() {
-  const color = "#F79009";
+  const [revenue, setRevenue] = useState(4820);
+  const [impressions, setImpressions] = useState(182);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setRevenue((r) => r + Math.floor(Math.random() * 4));
+      setImpressions((i) => i + Math.floor(Math.random() * 2));
+    }, 3000);
+    return () => clearInterval(t);
+  }, []);
+
+  const bars = [65, 88, 42, 94, 78, 55, 82, 90, 48, 71, 85, 60];
+
   return (
-    <AppShell color={color} label="Revenue & Ads">
-      <div className="flex flex-col h-full p-3 gap-3 bg-gray-50">
-        <div className="grid grid-cols-2 gap-2">
-          {[{ label: "Sponsorship Revenue", value: "$4,820", change: "+18%" }, { label: "Ad Impressions", value: "182K", change: "+12%" }].map((s) => (
-            <div key={s.label} className="bg-white border border-gray-200 rounded-xl p-3 shadow-sm">
-              <div className="text-[9px] text-gray-400 mb-1">{s.label}</div>
-              <div className="text-lg font-black text-gray-900">{s.value}</div>
-              <div className="text-[9px] font-semibold" style={{ color }}>{s.change} this match</div>
-            </div>
-          ))}
+    <div style={{ background: "#13161B", fontFamily: "system-ui,-apple-system,sans-serif", color: "#F7F7F7", fontSize: 11 }} className="relative w-full h-full overflow-hidden select-none flex flex-col">
+      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", borderBottom: "1px solid #22262F", background: "#1A1D26", flexShrink: 0 }}>
+        <div style={{ display: "flex", gap: 5 }}>
+          {["#FF5F57", "#FEBC2E", "#28C840"].map((c, i) => <div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: c }} />)}
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-3 flex-1 shadow-sm">
-          <div className="text-[9px] font-semibold text-gray-400 mb-3">Sponsor Exposure (seconds on-screen)</div>
-          <div className="flex items-end gap-1 h-20">
-            {[65, 88, 42, 94, 78, 55, 82, 90, 48, 71, 85, 60].map((h, i) => (
-              <div key={i} className="flex-1 rounded-t-sm" style={{ height: `${h}%`, background: i === 9 ? color : color + "30" }} />
+        <span style={{ fontSize: 9, color: "#94979C", marginLeft: 6 }}>LIGR — Revenue & Ads</span>
+      </div>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", padding: "10px 12px", gap: 8, overflow: "hidden" }}>
+        <div style={{ display: "flex", gap: 8 }}>
+          <div style={{ flex: 1, background: "#1A1D26", border: "1px solid #22262F", borderRadius: 6, padding: "8px 10px" }}>
+            <div style={{ fontSize: 7, color: "#94979C", marginBottom: 2 }}>Sponsorship Revenue</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#F7F7F7" }}>${revenue.toLocaleString()}</div>
+            <div style={{ fontSize: 7, color: "#FEBC2E", fontWeight: 600, marginTop: 1 }}>+18% this match</div>
+          </div>
+          <div style={{ flex: 1, background: "#1A1D26", border: "1px solid #22262F", borderRadius: 6, padding: "8px 10px" }}>
+            <div style={{ fontSize: 7, color: "#94979C", marginBottom: 2 }}>Ad Impressions</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#F7F7F7" }}>{impressions}K</div>
+            <div style={{ fontSize: 7, color: "#FEBC2E", fontWeight: 600, marginTop: 1 }}>+12% this match</div>
+          </div>
+        </div>
+        <div style={{ background: "#1A1D26", border: "1px solid #22262F", borderRadius: 6, padding: "8px 10px", flex: 1, overflow: "hidden" }}>
+          <div style={{ fontSize: 7, color: "#94979C", marginBottom: 8 }}>Sponsor Exposure (seconds on-screen)</div>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 56 }}>
+            {bars.map((h, i) => (
+              <div key={i} style={{ flex: 1, borderRadius: "2px 2px 0 0", height: `${h}%`, background: i === 9 ? "#FEBC2E" : "rgba(254,188,46,0.25)" }} />
             ))}
           </div>
-          <div className="flex justify-between mt-2">{["Q1", "Q2", "Q3", "Q4"].map((q) => <span key={q} className="text-[8px] text-gray-300">{q}</span>)}</div>
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4 }}>
+            {["Q1", "Q2", "Q3", "Q4"].map((q) => <span key={q} style={{ fontSize: 7, color: "#373A41" }}>{q}</span>)}
+          </div>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-3 shadow-sm">
-          <div className="text-[9px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Active Sponsors</div>
-          <div className="grid grid-cols-4 gap-1.5">
+        <div style={{ background: "#1A1D26", border: "1px solid #22262F", borderRadius: 6, padding: "8px 10px" }}>
+          <div style={{ fontSize: 7, color: "#94979C", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Active Sponsors</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 4 }}>
             {["SPONSOR", "PARTNER", "BRAND", "CO."].map((s) => (
-              <div key={s} className="border border-gray-200 rounded-lg h-9 flex items-center justify-center bg-gray-50">
-                <span className="text-[8px] font-bold text-gray-300">{s}</span>
+              <div key={s} style={{ border: "1px solid #22262F", borderRadius: 5, height: 28, display: "flex", alignItems: "center", justifyContent: "center", background: "#13161B" }}>
+                <span style={{ fontSize: 7, fontWeight: 700, color: "#373A41" }}>{s}</span>
               </div>
             ))}
           </div>
         </div>
       </div>
-    </AppShell>
+    </div>
   );
 }
 
-function RivePanel() {
+export function RivePanel() {
   const color = "#EE46BC";
   const states = ["Idle", "Goal Scored", "Foul", "Timeout", "Half Time", "Full Time"];
+  const [activeState, setActiveState] = useState(1);
+
+  useEffect(() => {
+    const t = setInterval(() => setActiveState((s) => (s + 1) % states.length), 2500);
+    return () => clearInterval(t);
+  }, [states.length]);
+
   return (
-    <AppShell color={color} label="Rive Animations">
-      <div className="flex h-full">
-        <div className="flex-1 flex flex-col">
-          <div className="flex-1 bg-gray-50 flex items-center justify-center relative overflow-hidden border-b border-gray-100">
-            <div className="relative">
-              <div className="w-44 h-24 rounded-xl bg-white border border-gray-200 shadow-lg flex items-center justify-center overflow-hidden relative">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  {[0, 1, 2, 3].map((ring) => (<div key={ring} className="absolute rounded-full border" style={{ width: 20 + ring * 24, height: 20 + ring * 24, borderColor: color + "30", opacity: 1 - ring * 0.2 }} />))}
+    <div style={{ background: "#13161B", fontFamily: "system-ui,-apple-system,sans-serif", color: "#F7F7F7", fontSize: 11 }} className="relative w-full h-full overflow-hidden select-none flex flex-col">
+      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", borderBottom: "1px solid #22262F", background: "#1A1D26", flexShrink: 0 }}>
+        <div style={{ display: "flex", gap: 5 }}>
+          {["#FF5F57", "#FEBC2E", "#28C840"].map((c, i) => <div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: c }} />)}
+        </div>
+        <span style={{ fontSize: 9, color: "#94979C", marginLeft: 6 }}>LIGR — Rive Animations</span>
+        <div style={{ marginLeft: "auto" }}>
+          <span style={{ fontSize: 8, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: `${color}25`, color }}>RIVE</span>
+        </div>
+      </div>
+      <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+          <div style={{ flex: 1, background: "#0C0E12", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden", borderBottom: "1px solid #22262F" }}>
+            <div style={{ position: "relative" }}>
+              <div style={{ width: 140, height: 75, borderRadius: 10, background: "#1A1D26", border: "1px solid #22262F", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", position: "relative" }}>
+                <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  {[0, 1, 2, 3].map((ring) => (
+                    <div key={ring} style={{ position: "absolute", borderRadius: "50%", border: `1px solid ${color}25`, width: 16 + ring * 20, height: 16 + ring * 20 }} />
+                  ))}
                 </div>
-                <div className="relative z-10 text-center"><div className="text-xl font-black" style={{ color }}>GOAL!</div><div className="text-[9px] text-gray-400">celebration.riv</div></div>
+                <div style={{ position: "relative", zIndex: 10, textAlign: "center" }}>
+                  <div style={{ fontSize: 16, fontWeight: 800, color, transition: "all 0.3s ease" }}>{states[activeState].toUpperCase()}</div>
+                  <div style={{ fontSize: 7, color: "#94979C", marginTop: 2 }}>celebration.riv</div>
+                </div>
               </div>
-              <div className="absolute -top-2 -right-2 text-[8px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ background: color }}>RIVE</div>
+              <div style={{ position: "absolute", top: -6, right: -6, fontSize: 7, fontWeight: 700, padding: "2px 5px", borderRadius: 99, color: "white", background: color }}>RIVE</div>
             </div>
           </div>
-          <div className="p-3 bg-white border-t border-gray-100">
-            <div className="text-[8px] text-gray-400 mb-1.5 font-medium">Timeline — Goal Scored · 1.8s</div>
-            <div className="flex items-center gap-0.5">
-              {Array.from({ length: 18 }).map((_, i) => (<div key={i} className="flex-1 h-4 rounded-sm" style={{ background: i < 12 ? color + (i < 9 ? "cc" : "55") : "#f3f4f6" }} />))}
+          <div style={{ padding: "8px 10px", background: "#1A1D26", borderTop: "1px solid #22262F" }}>
+            <div style={{ fontSize: 7, color: "#94979C", marginBottom: 4 }}>Timeline — {states[activeState]} · 1.8s</div>
+            <div style={{ display: "flex", gap: 2 }}>
+              {Array.from({ length: 18 }).map((_, i) => (
+                <div key={i} style={{ flex: 1, height: 14, borderRadius: 2, background: i < 12 ? (i < 9 ? `${color}cc` : `${color}55`) : "#22262F" }} />
+              ))}
             </div>
           </div>
         </div>
-        <div className="w-36 border-l border-gray-100 bg-[#fafafa] flex flex-col shrink-0">
-          <div className="px-2 py-2.5 text-[8px] font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-100">State Machine</div>
+        <div style={{ width: 120, borderLeft: "1px solid #22262F", background: "#1A1D26", display: "flex", flexDirection: "column", flexShrink: 0 }}>
+          <div style={{ padding: "6px 8px", borderBottom: "1px solid #22262F", fontSize: 7, color: "#94979C", textTransform: "uppercase", letterSpacing: 1 }}>State Machine</div>
           {states.map((state, i) => (
-            <div key={state} className="mx-1.5 my-0.5 flex items-center gap-1.5 px-2 py-1.5 rounded-lg border" style={{ background: i === 1 ? color + "12" : "transparent", borderColor: i === 1 ? color + "40" : "#f3f4f6" }}>
-              <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: i === 1 ? color : "#e5e7eb" }} />
-              <span className="text-[9px] font-medium" style={{ color: i === 1 ? color : "#9ca3af" }}>{state}</span>
-              {i === 1 && <span className="ml-auto text-[7px]" style={{ color }}>●</span>}
+            <div key={state} style={{ margin: "3px 6px", display: "flex", alignItems: "center", gap: 5, padding: "5px 8px", borderRadius: 6, border: `1px solid ${i === activeState ? color + "40" : "#22262F"}`, background: i === activeState ? `${color}12` : "transparent", transition: "all 0.3s ease" }}>
+              <div style={{ width: 5, height: 5, borderRadius: "50%", background: i === activeState ? color : "#373A41", flexShrink: 0, transition: "background 0.3s" }} />
+              <span style={{ fontSize: 8, color: i === activeState ? color : "#94979C", transition: "color 0.3s" }}>{state}</span>
+              {i === activeState && <span style={{ marginLeft: "auto", fontSize: 7, color }}>●</span>}
             </div>
           ))}
         </div>
       </div>
-    </AppShell>
+    </div>
   );
 }
 
