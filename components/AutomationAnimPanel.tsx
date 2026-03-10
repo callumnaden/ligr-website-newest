@@ -1,16 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-
-/* ─────────────────────────────────────────────────────────────
-   AutomationAnimPanel — dark theme
-   5-step loop:
-     1. Collapsed playlist cards
-     2. Expand "Pre Game Playlist" card (cursor clicks chevron)
-     3. Click Scorebug row → right panel slides in
-     4. Cursor at block right-edge → tooltip shows
-     5. Block drags wider → tooltip updates → reset
-───────────────────────────────────────────────────────────── */
+import { useEffect, useState } from "react";
 
 const BG = "#13161B";
 const BG_PANEL = "#1A1D26";
@@ -21,274 +10,187 @@ const TEXT1 = "#F7F7F7";
 const TEXT2 = "#CECFD2";
 const TEXT3 = "#94979C";
 const RED = "#FF504E";
+const GREEN = "#28C840";
+const YELLOW = "#FEBC2E";
+const PURPLE = "#9C88FF";
+
+type LogEntry = { time: string; event: string; action: string; color: string };
+
+const EVENT_POOL: LogEntry[] = [
+  { time: "18:42", event: "Goal scored — Home", action: "Score Bug + celebration overlay", color: RED },
+  { time: "18:39", event: "Score update received", action: "Scorebug updated automatically", color: GREEN },
+  { time: "18:35", event: "Foul — Away player", action: "Foul graphic displayed", color: YELLOW },
+  { time: "18:31", event: "Timeout called", action: "Break sequence started", color: YELLOW },
+  { time: "18:28", event: "Quarter end detected", action: "Quarter summary generated", color: PURPLE },
+  { time: "18:24", event: "Player substitution", action: "Player card queued + displayed", color: GREEN },
+  { time: "18:20", event: "Data feed heartbeat", action: "SportsRadar API · 12ms latency", color: BORDER2 },
+  { time: "18:17", event: "Goal scored — Away", action: "Score Bug + away team theme", color: RED },
+  { time: "18:12", event: "Clock sync", action: "Game clock synced to feed", color: GREEN },
+  { time: "18:08", event: "Automation rule fired", action: "Half time sequence triggered", color: PURPLE },
+];
+
+const RULES = [
+  { trigger: "Goal scored", action: "Score overlay → 8s", status: "armed", color: GREEN },
+  { trigger: "Quarter end", action: "Summary graphic → 12s", status: "armed", color: GREEN },
+  { trigger: "Player sub", action: "Player card → 6s", status: "armed", color: GREEN },
+  { trigger: "Timeout", action: "Break sequence → 30s", status: "armed", color: YELLOW },
+];
 
 export default function AutomationAnimPanel() {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const tlBodyRef = useRef<HTMLDivElement>(null);
-  const scoreRowRef = useRef<HTMLDivElement>(null);
-  const scoreBlockRef = useRef<HTMLDivElement>(null);
-  const rightPanelRef = useRef<HTMLDivElement>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
-  const tooltipTextRef = useRef<HTMLSpanElement>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
+  const [log, setLog] = useState<LogEntry[]>(EVENT_POOL.slice(0, 5));
+  const [eventsCount, setEventsCount] = useState(47);
+  const [matchTime, setMatchTime] = useState(1122); // 18:42 in seconds
+  const [activeRule, setActiveRule] = useState(-1);
+  const [newEntryKey, setNewEntryKey] = useState(0);
+  const poolIndexRef = { current: 5 };
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.set(tlBodyRef.current, { height: 0, overflow: "hidden" });
-      gsap.set(rightPanelRef.current, { x: "100%" });
-      gsap.set(tooltipRef.current, { opacity: 0 });
-      gsap.set(cursorRef.current, { opacity: 0, x: 42, y: 146 });
+    // Clock ticks
+    const clockTimer = setInterval(() => {
+      setMatchTime((t) => t + 1);
+    }, 1000);
 
-      const resetAll = (tl: gsap.core.Timeline) => {
-        tl.to(cursorRef.current, { opacity: 0, duration: 0.2 }, "+=0")
-          .to(tooltipRef.current, { opacity: 0, duration: 0.2 }, "<")
-          .to(rightPanelRef.current, { x: "100%", duration: 0.3, ease: "power2.in" }, "<")
-          .call(() => {
-            if (scoreRowRef.current) scoreRowRef.current.style.backgroundColor = "";
-            if (scoreBlockRef.current) {
-              scoreBlockRef.current.style.outline = "";
-              scoreBlockRef.current.style.width = "128px";
-            }
-            if (tooltipTextRef.current) tooltipTextRef.current.textContent = "17 secs  00:00 - 00:17";
-          })
-          .to(tlBodyRef.current, { height: 0, duration: 0.4, ease: "power2.in" });
-      };
+    // New events fire every ~2.8s
+    let ruleFlashTimeout: ReturnType<typeof setTimeout>;
+    const eventTimer = setInterval(() => {
+      const next = EVENT_POOL[poolIndexRef.current % EVENT_POOL.length];
+      poolIndexRef.current++;
+      setEventsCount((c) => c + 1);
+      setNewEntryKey((k) => k + 1);
+      setLog((prev) => [next, ...prev.slice(0, 4)]);
 
-      const play = () => {
-        const tl = gsap.timeline({ onComplete: () => { gsap.delayedCall(0.8, play); } });
+      // Flash the relevant rule
+      const ruleIdx = Math.floor(Math.random() * RULES.length);
+      setActiveRule(ruleIdx);
+      ruleFlashTimeout = setTimeout(() => setActiveRule(-1), 900);
+    }, 2800);
 
-        tl.addLabel("step1")
-          .set(cursorRef.current, { x: 42, y: 146 })
-          .to({}, { duration: 1.2 });
-
-        tl.addLabel("step2")
-          .to(cursorRef.current, { opacity: 1, duration: 0.25 })
-          .to(cursorRef.current, { scale: 0.8, duration: 0.1, ease: "power2.in" })
-          .to(cursorRef.current, { scale: 1, duration: 0.1, ease: "power2.out" })
-          .to(tlBodyRef.current, { height: 182, duration: 0.5, ease: "power3.out" })
-          .to({}, { duration: 0.8 })
-          .to(cursorRef.current, { opacity: 0, duration: 0.2 });
-
-        tl.addLabel("step3")
-          .set(cursorRef.current, { x: 220, y: 216 })
-          .to(cursorRef.current, { opacity: 1, duration: 0.25 })
-          .to(cursorRef.current, { scale: 0.8, duration: 0.1, ease: "power2.in" })
-          .to(cursorRef.current, { scale: 1, duration: 0.1, ease: "power2.out" })
-          .call(() => {
-            if (scoreRowRef.current) scoreRowRef.current.style.backgroundColor = "rgba(46,144,250,0.08)";
-            if (scoreBlockRef.current) scoreBlockRef.current.style.outline = "1.5px solid #2e90fa";
-          })
-          .to(rightPanelRef.current, { x: "0%", duration: 0.4, ease: "power3.out" })
-          .to({}, { duration: 0.9 })
-          .to(cursorRef.current, { opacity: 0, duration: 0.2 });
-
-        tl.addLabel("step4")
-          .set(cursorRef.current, { x: 293, y: 210 })
-          .to(cursorRef.current, { opacity: 1, duration: 0.25 })
-          .to(tooltipRef.current, { opacity: 1, duration: 0.2 })
-          .to({}, { duration: 0.5 });
-
-        tl.addLabel("step5")
-          .to(scoreBlockRef.current, { width: 212, duration: 0.8, ease: "power1.inOut" })
-          .to(cursorRef.current, { x: 377, duration: 0.8, ease: "power1.inOut" }, "<")
-          .call(() => {
-            if (tooltipTextRef.current) tooltipTextRef.current.textContent = "30 secs  00:00 - 00:30";
-          }, [], "-=0.4")
-          .to({}, { duration: 1.5 });
-
-        resetAll(tl);
-      };
-
-      gsap.delayedCall(0.5, play);
-    }, rootRef);
-
-    return () => ctx.revert();
+    return () => {
+      clearInterval(clockTimer);
+      clearInterval(eventTimer);
+      clearTimeout(ruleFlashTimeout);
+    };
   }, []);
+
+  const formatTime = (s: number) => {
+    const m = Math.floor(s / 60) % 60;
+    const sec = s % 60;
+    return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+  };
 
   return (
     <div
-      ref={rootRef}
-      style={{ background: BG, fontFamily: "system-ui, -apple-system, sans-serif", color: TEXT1, fontSize: 12 }}
-      className="relative w-full h-full overflow-hidden select-none"
+      style={{ background: BG, fontFamily: "system-ui,-apple-system,sans-serif", color: TEXT1, fontSize: 11 }}
+      className="relative w-full h-full overflow-hidden select-none flex flex-col"
     >
-      {/* ── Top nav bar ── */}
-      <div style={{ height: 40, borderBottom: `1px solid ${BORDER}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 12px", background: BG_PANEL, flexShrink: 0 }}>
+      {/* ── Header ── */}
+      <div style={{ height: 36, borderBottom: `1px solid ${BORDER}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 12px", background: BG_PANEL, flexShrink: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ display: "flex", gap: 5 }}>
             {["#FF5F57", "#FEBC2E", "#28C840"].map((c, i) => (
               <div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: c }} />
             ))}
           </div>
-          <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", color: TEXT1, marginLeft: 6 }}>
-            AUTOMATION TEMPLATE
-          </span>
+          <span style={{ fontSize: 9, color: TEXT3, marginLeft: 6 }}>LIGR — Full Automation</span>
         </div>
-        <div style={{ display: "flex", gap: 6 }}>
-          <button style={{ fontSize: 10, fontWeight: 600, padding: "3px 10px", border: `1px solid ${BORDER2}`, borderRadius: 6, background: BG, color: TEXT2 }}>Cancel</button>
-          <button style={{ fontSize: 10, fontWeight: 600, padding: "3px 10px", border: "none", borderRadius: 6, background: RED, color: "#fff" }}>Save</button>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 4, background: "rgba(40,200,64,0.1)", border: "1px solid rgba(40,200,64,0.25)", borderRadius: 4, padding: "2px 8px" }}>
+            <div style={{ width: 5, height: 5, borderRadius: "50%", background: GREEN }} />
+            <span style={{ fontSize: 8, color: GREEN, fontWeight: 700 }}>RUNNING</span>
+          </div>
+          <span style={{ fontSize: 8, color: TEXT3, fontFamily: "monospace" }}>{formatTime(matchTime)}</span>
         </div>
       </div>
 
-      {/* ── Tab bar ── */}
-      <div style={{ height: 36, borderBottom: `1px solid ${BORDER}`, display: "flex", alignItems: "center", padding: "0 12px", background: BG_PANEL, flexShrink: 0 }}>
-        {[
-          { label: "Pre / Post Match & Breaks", active: true },
-          { label: "In Game (Live)", active: false },
-        ].map(({ label, active }) => (
-          <div key={label} style={{ padding: "0 12px", height: "100%", display: "flex", alignItems: "center", fontSize: 10, fontWeight: active ? 600 : 400, color: active ? RED : TEXT3, borderBottom: active ? `2px solid ${RED}` : "2px solid transparent", cursor: "default" }}>
-            {label}
-          </div>
-        ))}
-      </div>
-
-      {/* ── Main area ── */}
-      <div style={{ height: "calc(100% - 76px)", display: "flex", overflow: "hidden", position: "relative", background: BG }}>
-        {/* ── Left: playlist list ── */}
-        <div style={{ flex: 1, overflow: "hidden", display: "flex", flexDirection: "column" }}>
-          {/* Section header */}
-          <div style={{ height: 40, borderBottom: `1px solid ${BORDER}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 12px", flexShrink: 0, background: BG_PANEL }}>
-            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.12em", color: TEXT3 }}>PRE / POST MATCH &amp; BREAKS</span>
-            <div style={{ display: "flex", gap: 4 }}>
-              {["Search", "Filter", "Create Playlist"].map((btn) => (
-                <button key={btn} style={{ fontSize: 9, fontWeight: 500, padding: "2px 7px", border: `1px solid ${BORDER2}`, borderRadius: 5, background: BG, color: TEXT2 }}>{btn}</button>
-              ))}
-            </div>
+      {/* ── Body ── */}
+      <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+        {/* Left: automation rules */}
+        <div style={{ width: "42%", borderRight: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", flexShrink: 0 }}>
+          <div style={{ padding: "8px 12px 6px", borderBottom: `1px solid ${BORDER}`, flexShrink: 0 }}>
+            <div style={{ fontSize: 7, color: TEXT3, textTransform: "uppercase", letterSpacing: 1, marginBottom: 1 }}>Automation Rules</div>
+            <div style={{ fontSize: 7, color: BORDER2 }}>Firing automatically — no operator needed</div>
           </div>
 
-          {/* ── Card 1: Pre Game Playlist (expandable) ── */}
-          <div style={{ borderBottom: `1px solid ${BORDER}` }}>
-            <div style={{ height: 44, display: "flex", alignItems: "center", padding: "0 12px", gap: 8, cursor: "default", background: BG }}>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M5 4l4 3-4 3" stroke={TEXT3} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <span style={{ fontSize: 11, fontWeight: 600, color: TEXT1 }}>Pre Game Playlist</span>
-              <span style={{ marginLeft: "auto", fontSize: 9, fontWeight: 500, color: TEXT3, border: `1px solid ${BORDER2}`, borderRadius: 4, padding: "1px 5px" }}>4 items</span>
-            </div>
-
-            {/* Timeline body */}
-            <div ref={tlBodyRef} style={{ overflow: "hidden" }}>
-              {/* Ruler */}
-              <div style={{ height: 26, borderBottom: `1px solid ${BORDER}`, display: "flex", alignItems: "center", background: BG_CANVAS, paddingLeft: 148 + 16 }}>
-                {Array.from({ length: 9 }, (_, i) => i * 15).map((sec) => (
-                  <div key={sec} style={{ position: "relative", width: sec === 0 ? 0 : 64, flexShrink: 0, fontSize: 8, color: BORDER2 }}>
-                    <span style={{ position: "absolute", left: sec === 0 ? 0 : -10 }}>{sec === 0 ? "0s" : `${sec}s`}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Scorebug row */}
-              <div ref={scoreRowRef} style={{ height: 44, display: "flex", alignItems: "center", borderBottom: `1px solid ${BORDER}`, transition: "background-color 0.2s", background: BG }}>
-                <div style={{ width: 148, paddingLeft: 16, flexShrink: 0, fontSize: 10, fontWeight: 600, color: TEXT2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>Scorebug</div>
-                <div style={{ flex: 1, position: "relative", height: "100%", overflow: "visible" }}>
-                  <div style={{ position: "absolute", inset: "7px 0", paddingLeft: 4 }}>
-                    <div ref={scoreBlockRef} style={{ width: 128, height: "100%", background: "rgba(46,144,250,0.1)", border: "1px solid #1849a9", borderRadius: 5, display: "flex", alignItems: "center", paddingLeft: 6, fontSize: 9, fontWeight: 600, color: "#84caff", overflow: "hidden", position: "relative", cursor: "default" }}>
-                      SCOREBUG
-                      <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: 6, cursor: "ew-resize", background: "rgba(46,144,250,0.15)", borderRadius: "0 4px 4px 0" }} />
-                    </div>
-                    <div ref={tooltipRef} style={{ position: "absolute", top: -26, left: 120, background: BG_PANEL, border: `1px solid ${BORDER2}`, color: TEXT1, fontSize: 9, fontWeight: 500, padding: "3px 7px", borderRadius: 4, whiteSpace: "nowrap", pointerEvents: "none", zIndex: 10 }}>
-                      <span ref={tooltipTextRef}>17 secs  00:00 - 00:17</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Multimedia row */}
-              <div style={{ height: 40, display: "flex", alignItems: "center", borderBottom: `1px solid ${BORDER}`, background: BG }}>
-                <div style={{ width: 148, paddingLeft: 16, flexShrink: 0, fontSize: 10, fontWeight: 500, color: TEXT3 }}>Multimedia</div>
-                <div style={{ flex: 1, position: "relative", height: "100%" }}>
-                  <div style={{ position: "absolute", inset: "7px 0", paddingLeft: 4 }}>
-                    <div style={{ width: 200, height: "100%", background: "rgba(255,80,78,0.1)", border: "1px solid rgba(255,80,78,0.3)", borderRadius: 5, display: "flex", alignItems: "center", paddingLeft: 6, fontSize: 9, fontWeight: 600, color: "#FF8A65" }}>
-                      NOVEMBER GOAL HIGHLIGHTS
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Multimedia Audio row */}
-              <div style={{ height: 40, display: "flex", alignItems: "center", borderBottom: `1px solid ${BORDER}`, background: BG }}>
-                <div style={{ width: 148, paddingLeft: 16, flexShrink: 0, fontSize: 10, fontWeight: 500, color: TEXT3 }}>Multimedia Audio</div>
-                <div style={{ flex: 1, position: "relative", height: "100%" }}>
-                  <div style={{ position: "absolute", inset: "7px 0", paddingLeft: 4 }}>
-                    <div style={{ width: 200, height: "100%", background: "rgba(255,80,78,0.1)", border: "1px solid rgba(255,80,78,0.3)", borderRadius: 5, display: "flex", alignItems: "center", paddingLeft: 6, fontSize: 9, fontWeight: 600, color: "#FF8A65" }}>
-                      NOVEMBER GOAL HIGHLIGHTS
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Add item row */}
-              <div style={{ height: 30, display: "flex", alignItems: "center", paddingLeft: 16, background: BG }}>
-                <button style={{ fontSize: 9, fontWeight: 600, color: TEXT3, border: "none", background: "none", display: "flex", alignItems: "center", gap: 4 }}>
-                  <span style={{ fontSize: 14, lineHeight: 1 }}>+</span> Add item
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* ── Card 2: Pre Game Players Entering ── */}
-          <div style={{ borderBottom: `1px solid ${BORDER}`, background: BG }}>
-            <div style={{ height: 44, display: "flex", alignItems: "center", padding: "0 12px", gap: 8 }}>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M5 4l4 3-4 3" stroke={TEXT3} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <span style={{ fontSize: 11, fontWeight: 600, color: TEXT1 }}>Pre Game Players Entering</span>
-              <span style={{ marginLeft: "auto", fontSize: 9, fontWeight: 500, color: TEXT3, border: `1px solid ${BORDER2}`, borderRadius: 4, padding: "1px 5px" }}>2 items</span>
-            </div>
-          </div>
-
-          {/* ── Card 3: Post Game ── */}
-          <div style={{ borderBottom: `1px solid ${BORDER}`, background: BG }}>
-            <div style={{ height: 44, display: "flex", alignItems: "center", padding: "0 12px", gap: 8 }}>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M5 4l4 3-4 3" stroke={TEXT3} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <span style={{ fontSize: 11, fontWeight: 600, color: TEXT1 }}>Post Game</span>
-              <span style={{ marginLeft: "auto", fontSize: 9, fontWeight: 500, color: TEXT3, border: `1px solid ${BORDER2}`, borderRadius: 4, padding: "1px 5px" }}>3 items</span>
-            </div>
-          </div>
-        </div>
-
-        {/* ── Right panel (slides in) ── */}
-        <div ref={rightPanelRef} style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: 220, background: BG_PANEL, borderLeft: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", zIndex: 20, overflow: "hidden" }}>
-          <div style={{ height: 40, borderBottom: `1px solid ${BORDER}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 12px", flexShrink: 0 }}>
-            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", color: TEXT1 }}>SCOREBUG</span>
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M2 2l10 10M12 2L2 12" stroke={TEXT3} strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-          </div>
-
-          <div style={{ flex: 1, padding: "10px 12px", display: "flex", flexDirection: "column", gap: 10 }}>
+          {/* Stats row */}
+          <div style={{ display: "flex", gap: 0, borderBottom: `1px solid ${BORDER}`, flexShrink: 0 }}>
             {[
-              { label: "Graphic Name", value: "Scorebug Default" },
-              { label: "Duration", value: "17s" },
-              { label: "Start Time", value: "00:00" },
-            ].map(({ label, value }) => (
-              <div key={label}>
-                <label style={{ fontSize: 9, fontWeight: 600, color: TEXT3, display: "block", marginBottom: 3 }}>{label}</label>
-                <div style={{ height: 28, border: `1px solid ${BORDER2}`, borderRadius: 6, display: "flex", alignItems: "center", paddingLeft: 8, fontSize: 10, color: TEXT2, background: BG }}>{value}</div>
+              { label: "Events fired", value: eventsCount },
+              { label: "Active rules", value: RULES.length },
+              { label: "Errors", value: 0 },
+            ].map((s, i) => (
+              <div key={i} style={{ flex: 1, padding: "6px 10px", borderRight: i < 2 ? `1px solid ${BORDER}` : "none" }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: TEXT1 }}>{s.value}</div>
+                <div style={{ fontSize: 7, color: TEXT3 }}>{s.label}</div>
               </div>
             ))}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <label style={{ fontSize: 9, fontWeight: 600, color: TEXT3 }}>Loop</label>
-              <div style={{ width: 32, height: 18, borderRadius: 9, background: RED, display: "flex", alignItems: "center", paddingRight: 2, justifyContent: "flex-end" }}>
-                <div style={{ width: 14, height: 14, borderRadius: "50%", background: "#fff" }} />
+          </div>
+
+          {/* Rules list */}
+          <div style={{ flex: 1, padding: "8px 10px", display: "flex", flexDirection: "column", gap: 5, overflow: "hidden" }}>
+            {RULES.map((rule, i) => (
+              <div
+                key={i}
+                style={{
+                  background: activeRule === i ? `${rule.color}18` : BG_PANEL,
+                  border: `1px solid ${activeRule === i ? rule.color + "50" : BORDER}`,
+                  borderRadius: 5, padding: "6px 8px",
+                  transition: "all 0.25s ease",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 2 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                    <div style={{ width: 5, height: 5, borderRadius: "50%", background: rule.color, flexShrink: 0 }} />
+                    <div style={{ fontSize: 8, color: TEXT2, fontWeight: 600 }}>IF: {rule.trigger}</div>
+                  </div>
+                  <div style={{ fontSize: 7, color: rule.color, background: `${rule.color}15`, padding: "1px 5px", borderRadius: 3, fontWeight: 600 }}>
+                    {activeRule === i ? "FIRED" : rule.status.toUpperCase()}
+                  </div>
+                </div>
+                <div style={{ fontSize: 7, color: TEXT3, paddingLeft: 10 }}>→ {rule.action}</div>
               </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: live event log */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+          <div style={{ padding: "8px 12px 6px", borderBottom: `1px solid ${BORDER}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
+            <div style={{ fontSize: 7, color: TEXT3, textTransform: "uppercase", letterSpacing: 1 }}>Live Event Log</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              <div style={{ width: 5, height: 5, borderRadius: "50%", background: RED }} />
+              <span style={{ fontSize: 7, color: RED, fontWeight: 600 }}>Live</span>
             </div>
           </div>
 
-          <div style={{ borderTop: `1px solid ${BORDER}`, padding: "8px 12px", display: "flex", gap: 6, flexShrink: 0 }}>
-            <button style={{ flex: 1, fontSize: 10, fontWeight: 600, padding: "5px 0", border: `1px solid ${BORDER2}`, borderRadius: 6, background: BG, color: TEXT2 }}>Cancel</button>
-            <button style={{ flex: 1, fontSize: 10, fontWeight: 600, padding: "5px 0", border: "none", borderRadius: 6, background: RED, color: "#fff" }}>Apply</button>
+          <div style={{ flex: 1, padding: "8px 10px", display: "flex", flexDirection: "column", gap: 5, overflow: "hidden" }}>
+            {log.map((ev, i) => (
+              <div
+                key={`${newEntryKey}-${i}`}
+                style={{
+                  display: "flex", gap: 8, alignItems: "flex-start",
+                  padding: "5px 8px", background: BG_PANEL, borderRadius: 4,
+                  borderLeft: `2px solid ${ev.color}`,
+                  animation: i === 0 ? "autoLogIn 0.4s ease-out" : undefined,
+                }}
+              >
+                <div style={{ fontSize: 7, color: TEXT3, flexShrink: 0, marginTop: 1, fontFamily: "monospace" }}>{ev.time}</div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 8, color: TEXT2, fontWeight: 600, marginBottom: 1 }}>{ev.event}</div>
+                  <div style={{ fontSize: 7, color: TEXT3 }}>→ {ev.action}</div>
+                </div>
+                <div style={{ width: 5, height: 5, borderRadius: "50%", background: i === 0 ? ev.color : BORDER, flexShrink: 0, marginTop: 2, transition: "background 0.3s" }} />
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* ── Animated cursor ── */}
-      <div ref={cursorRef} style={{ position: "absolute", top: 0, left: 0, zIndex: 50, pointerEvents: "none", transformOrigin: "top left" }}>
-        <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
-          <path d="M1 1l6.5 16.5 3-5.5 6 1.5L1 1z" fill={TEXT1} stroke={BG} strokeWidth="1.5" strokeLinejoin="round" />
-        </svg>
-      </div>
+      <style>{`
+        @keyframes autoLogIn {
+          from { opacity: 0; transform: translateY(-6px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }
