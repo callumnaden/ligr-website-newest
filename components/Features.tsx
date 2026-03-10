@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { FusePanel, AIGraphicsPanel, StreamingPanel, RevenuePanel } from "./FeaturesSection";
+import AutomationAnimPanel from "./AutomationAnimPanel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,30 +13,35 @@ const tabs = [
     heading: "Make every game feel like a major event.",
     desc: "Customise your broadcast with your team colours, logos, and branding. LIGR makes community sport look like prime time television.",
     features: ["Custom branding per team", "Automated lower thirds", "Real-time stat overlays"],
+    Panel: FusePanel,
   },
   {
     label: "Scoring Platform",
     heading: "One platform for every sport you run.",
     desc: "Manage scores, stats, and timing from a single dashboard — works across multiple sports and multiple events simultaneously.",
     features: ["Multi-sport support", "Live stat sync", "Referee & scorer tools"],
+    Panel: AutomationAnimPanel,
   },
   {
     label: "Free Scoreboard",
     heading: "Beautiful scoreboards, zero cost.",
     desc: "Every LIGR customer gets a free embeddable scoreboard they can put on their website, social feeds, or venue screens.",
     features: ["Embeddable anywhere", "Auto-updating", "Custom colours"],
+    Panel: StreamingPanel,
   },
   {
     label: "AI Enabled",
     heading: "Graphics that design themselves.",
     desc: "Our AI analyses your sport, your brand, and the match context to generate broadcast-quality graphics automatically.",
     features: ["Auto graphic generation", "Brand-aware AI", "Zero design skills needed"],
+    Panel: AIGraphicsPanel,
   },
   {
     label: "Non-Athletes",
     heading: "Built for the people who run sport.",
     desc: "Volunteers, admins, and parents can run professional broadcasts — no technical experience required.",
     features: ["One-click setup", "Guided workflows", "24/7 support"],
+    Panel: RevenuePanel,
   },
 ];
 
@@ -132,37 +139,8 @@ export default function Features() {
           {/* Mockup */}
           <div className="relative">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse,rgba(230,48,48,0.15)_0%,transparent_65%)] blur-2xl" />
-            <div className="relative card-border rounded-2xl overflow-hidden shadow-[0_24px_60px_rgba(0,0,0,0.4)]">
-              <div className="bg-[#1a1e2a] border-b border-white/5 px-4 py-3 flex items-center gap-2">
-                <div className="flex gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-                </div>
-              </div>
-              <div className="bg-[#13161f] aspect-[4/3] p-6 flex flex-col gap-4">
-                <div className="flex gap-2 mb-2">
-                  {["Overview", "Graphics", "Stats", "Settings"].map((t) => (
-                    <div
-                      key={t}
-                      className={`text-[11px] px-3 py-1 rounded-full ${
-                        t === "Graphics" ? "gradient-wave text-white font-semibold" : "text-[#5c6070] bg-white/3"
-                      }`}
-                    >
-                      {t}
-                    </div>
-                  ))}
-                </div>
-                <div className="grid grid-cols-2 gap-3 flex-1">
-                  {[1, 2, 3, 4].map((n) => (
-                    <div key={n} className="bg-white/3 rounded-lg border border-white/5 p-3 flex flex-col gap-2">
-                      <div className="h-2 rounded bg-white/10 w-2/3" />
-                      <div className="flex-1 rounded bg-white/5 min-h-[40px]" />
-                      <div className="h-2 rounded bg-white/8 w-1/2" />
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <div className="relative card-border rounded-2xl overflow-hidden shadow-[0_24px_60px_rgba(0,0,0,0.4)]" style={{ aspectRatio: "3/2" }}>
+              {(() => { const { Panel } = tabs[active]; return <Panel />; })()}
             </div>
           </div>
         </div>

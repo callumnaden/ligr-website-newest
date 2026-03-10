@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import DashboardMockup from "./DashboardMockup";
 
 export default function FeaturesHero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -40,8 +39,12 @@ export default function FeaturesHero() {
         {/* Full-width mockup */}
         <div className="fh-mockup relative z-10 max-w-[1280px] mx-auto px-4 md:px-8 pb-0">
           <div className="border border-[#22262f] bg-[#0c0e12] rounded-[24px] md:rounded-[32px] p-1 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.6)]">
-            <div className="rounded-[20px] md:rounded-[28px] bg-[#13161B] border-2 border-[#373A41] overflow-hidden">
-              <DashboardMockup />
+            <div className="rounded-[20px] md:rounded-[28px] overflow-hidden">
+              <img
+                src="/features-hero.jpg"
+                alt="LIGR Match Centre"
+                className="w-full h-auto block"
+              />
             </div>
           </div>
         </div>

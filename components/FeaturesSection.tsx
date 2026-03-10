@@ -8,7 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 /* ── Panel components (light-mode app mockups) ──────────────── */
 
-function AppShell({ children, color, label }: { children: React.ReactNode; color: string; label: string }) {
+export function AppShell({ children, color, label }: { children: React.ReactNode; color: string; label: string }) {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center gap-2.5 px-4 py-2 shrink-0" style={{ background: color + "12", borderBottom: `1px solid ${color}25` }}>
@@ -28,7 +28,7 @@ function AppShell({ children, color, label }: { children: React.ReactNode; color
   );
 }
 
-function FusePanel() {
+export function FusePanel() {
   const color = "#FF504E";
   return (
     <AppShell color={color} label="Fuse">
@@ -91,7 +91,7 @@ function FusePanel() {
   );
 }
 
-function AIGraphicsPanel() {
+export function AIGraphicsPanel() {
   const color = "#9E77ED";
   return (
     <AppShell color={color} label="AI Graphics">
@@ -204,7 +204,7 @@ function AutomationPanel() {
   );
 }
 
-function StreamingPanel() {
+export function StreamingPanel() {
   const color = "#0BA5EC";
   const destinations = [
     { name: "YouTube", viewers: "1,842", health: 98, active: true },
@@ -249,7 +249,7 @@ function StreamingPanel() {
   );
 }
 
-function RevenuePanel() {
+export function RevenuePanel() {
   const color = "#F79009";
   return (
     <AppShell color={color} label="Revenue & Ads">

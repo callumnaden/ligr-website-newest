@@ -836,7 +836,7 @@ export default function PricingSection() {
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────────────────── */}
-      <section className="px-4 md:px-6 pb-4 md:pb-6">
+      <section className="px-4 md:px-6 py-12 md:pb-6">
         <div className="max-w-[1920px] mx-auto">
           <div
             className="rounded-2xl relative overflow-hidden"
@@ -846,17 +846,15 @@ export default function PricingSection() {
             <div className="mesh-blob mesh-blob-2" />
             <div className="mesh-blob mesh-blob-3" />
             <div className="absolute inset-0 dot-grid pointer-events-none" />
-            <div className="relative z-10 max-w-[1280px] mx-auto px-6 md:px-8 py-16 md:py-24">
-              <div className="max-w-[768px] flex flex-col gap-8">
-                <div className="flex flex-col gap-5">
-                  <h2 className="text-[30px] md:text-[36px] font-semibold leading-[1.22] tracking-[-0.02em] text-[#F7F7F7]">
-                    Not sure what plan is right?
-                  </h2>
-                  <p className="text-lg md:text-xl font-normal text-[#F7F7F7] leading-[1.6] max-w-[600px]">
-                    Talk to our team. We'll help you find the perfect setup for your sport, scale, and budget.
-                  </p>
-                </div>
-                <div>
+            <div className="relative z-10 max-w-[1280px] mx-auto px-6 md:px-8 py-10 md:py-16">
+              <div className="max-w-[768px]">
+                <h2 className="cta-item text-[30px] md:text-[36px] font-bold leading-[38px] md:leading-[44px] tracking-[-0.02em] text-[#F7F7F7] mb-5">
+                  Not sure what plan is right?
+                </h2>
+                <p className="cta-item text-lg md:text-xl font-normal text-[#F7F7F7]/80 leading-[28px] md:leading-[30px] mb-8">
+                  Talk to our team. We'll help you find the perfect setup for your sport, scale, and budget.
+                </p>
+                <div className="cta-item">
                   <a
                     href="/contact"
                     className="inline-flex items-center justify-center bg-white text-[#FF504E] font-semibold px-[18px] py-3 rounded-lg text-base hover:bg-white/90 transition-colors shadow-[0_1px_2px_rgba(10,13,18,0.05),inset_0_0_0_1px_rgba(10,13,18,0.18),inset_0_-2px_0_rgba(10,13,18,0.05)]"
