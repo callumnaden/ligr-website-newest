@@ -424,7 +424,7 @@ export default function FeatureRows() {
   }, []);
 
   return (
-    <section ref={ref} className="py-12 md:py-24 px-4 md:px-6 overflow-x-hidden">
+    <section ref={ref} className="py-12 md:py-24 px-4 md:px-6">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
         {/* Header */}
         <div className="fr-header max-w-[768px] mb-12 md:mb-16 flex flex-col gap-3">

@@ -180,6 +180,9 @@ export default function Hero() {
                     </svg>
                     See it in action
                   </button>
+                  <button className="w-full bg-white text-[#FF504E] font-semibold px-[18px] py-3 rounded-lg text-base hover:bg-white/90 transition-colors shadow-[0_1px_2px_rgba(10,13,18,0.05),inset_0_0_0_1px_rgba(10,13,18,0.18),inset_0_-2px_0_rgba(10,13,18,0.05)]">
+                    Get started
+                  </button>
                 </div>
 
                 {/* Mobile: full-width image */}

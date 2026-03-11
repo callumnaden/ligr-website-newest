@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AutomationAnimPanel from "./AutomationAnimPanel";
@@ -59,6 +59,34 @@ const tabContent = [
 
 const panelComponents = [AutomationAnimPanel, StreamingPanel, FuseAnimPanel, AIGraphicsAnimPanel, RevenuePanel, RivePanel];
 
+// Only mounts the panel when it enters the viewport — prevents all 6 running simultaneously
+function LazyPanel({ Panel }: { Panel: React.ComponentType }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setMounted(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className="w-full h-full">
+      {mounted && <Panel />}
+    </div>
+  );
+}
+
 const ArrowIcon = () => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <path d="M4 10h12M12 6l4 4-4 4" stroke="#FF8A65" strokeWidth="1.667" strokeLinecap="round" strokeLinejoin="round" />
@@ -114,7 +142,7 @@ export default function FeaturesTabbed() {
                   className="relative overflow-hidden rounded-xl shadow-[0_24px_48px_rgba(0,0,0,0.4)]"
                   style={{ aspectRatio: "16/9", minHeight: 200 }}
                 >
-                  <Panel />
+                  <LazyPanel Panel={Panel} />
                 </div>
                 <div className="flex flex-col gap-3">
                   <h3 className="text-[28px] font-bold leading-[36px] tracking-[-0.02em] text-[#F7F7F7]">
