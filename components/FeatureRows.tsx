@@ -424,7 +424,7 @@ export default function FeatureRows() {
   }, []);
 
   return (
-    <section ref={ref} className="py-12 md:py-24 px-4 md:px-6">
+    <section ref={ref} className="py-12 md:py-24 px-4 md:px-6 overflow-x-hidden">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
         {/* Header */}
         <div className="fr-header max-w-[768px] mb-12 md:mb-16 flex flex-col gap-3">
@@ -435,22 +435,6 @@ export default function FeatureRows() {
           <p className="text-xl text-[#94979c] font-normal leading-[30px]">
             A complete cloud production suite — from AI-generated graphics to fully automated broadcasts.
           </p>
-        </div>
-
-        {/* Mobile: step nav (clickable, scroll-triggered active state) */}
-        <div className="md:hidden flex flex-col gap-0 mb-10">
-          {steps.map((step, i) => (
-            <button
-              key={i}
-              onClick={() => scrollToCard(i)}
-              className="flex flex-col pt-4 pb-3 transition-all text-left"
-              style={{ borderTop: `4px solid ${activeStep === i ? "#FF504E" : "#373A41"}` }}
-            >
-              <span className={`text-base font-semibold transition-colors ${activeStep === i ? "text-[#CECFD2]" : "text-[#CECFD2]/40"}`}>
-                {step.label}
-              </span>
-            </button>
-          ))}
         </div>
 
         {/* Two column layout */}
@@ -478,9 +462,13 @@ export default function FeatureRows() {
               return (
                 <div
                   key={i}
-                  className="fr-card flex flex-col gap-6 md:gap-8 scroll-mt-24"
+                  className="fr-card flex flex-col gap-5 md:gap-8 scroll-mt-24"
                   ref={(el) => { cardRefs.current[i] = el; }}
                 >
+                  {/* Step indicator - mobile only */}
+                  <div className="md:hidden pt-3" style={{ borderTop: "4px solid #FF504E" }}>
+                    <span className="text-[14px] font-semibold text-[#CECFD2]">{steps[i].label}</span>
+                  </div>
                   <Illustration />
                   <div className="flex flex-col gap-4">
                     <div
@@ -493,9 +481,15 @@ export default function FeatureRows() {
                       <h3 className="text-[20px] md:text-[30px] font-semibold leading-[28px] md:leading-[38px] text-[#F7F7F7] mb-2 md:mb-3">
                         {feat.heading}
                       </h3>
-                      <p className="text-base md:text-[18px] font-normal text-[#94979c] leading-6 md:leading-7">
+                      <p className="text-base md:text-[18px] font-normal text-[#94979c] leading-6 md:leading-7 mb-4">
                         {feat.body}
                       </p>
+                      <a href="#" className="inline-flex items-center gap-1.5 text-base font-semibold text-[#FF504E] hover:opacity-80 transition-opacity">
+                        {feat.cta}
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                          <path d="M4 10h12M12 6l4 4-4 4" stroke="#FF8A65" strokeWidth="1.667" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </a>
                     </div>
                   </div>
                 </div>

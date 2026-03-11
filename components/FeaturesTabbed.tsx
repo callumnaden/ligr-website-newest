@@ -57,6 +57,14 @@ const tabContent = [
   },
 ];
 
+const panelComponents = [AutomationAnimPanel, StreamingPanel, FuseAnimPanel, AIGraphicsAnimPanel, RevenuePanel, RivePanel];
+
+const ArrowIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path d="M4 10h12M12 6l4 4-4 4" stroke="#FF8A65" strokeWidth="1.667" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 export default function FeaturesTabbed() {
   const [active, setActive] = useState(0);
   const ref = useRef<HTMLElement>(null);
@@ -81,6 +89,7 @@ export default function FeaturesTabbed() {
   return (
     <section ref={ref} className="py-12 md:py-24 px-4 md:px-6">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8">
+
         {/* Header */}
         <div className="ft-intro max-w-[768px] mb-8 flex flex-col gap-3">
           <p className="text-base font-semibold text-[#94979c]">Platform</p>
@@ -92,48 +101,85 @@ export default function FeaturesTabbed() {
           </p>
         </div>
 
-        {/* Tab strip */}
-        <div className="mb-10">
-          <div className="flex flex-col md:flex-row md:w-full">
-            {tabs.map((tab, i) => (
-              <button
-                key={i}
-                onClick={() => setActive(i)}
-                className="flex flex-col pt-4 pb-3 md:pb-0 md:flex-1 transition-all text-left"
-                style={{ borderTop: `4px solid ${active === i ? "#FF504E" : "#373A41"}` }}
-              >
-                <span className={`text-[15px] md:text-[18px] font-semibold leading-7 transition-colors ${active === i ? "text-[#CECFD2]" : "text-[#CECFD2]/40"}`}>
-                  {tab.label}
-                </span>
-              </button>
+        {/* Mobile: each feature stacked with its tab label above */}
+        <div className="md:hidden flex flex-col gap-10">
+          {tabs.map((tab, i) => {
+            const Panel = panelComponents[i];
+            return (
+              <div key={i} className="flex flex-col gap-5">
+                <div className="pt-3" style={{ borderTop: "4px solid #FF504E" }}>
+                  <span className="text-[14px] font-semibold text-[#CECFD2]">{tab.label}</span>
+                </div>
+                <div
+                  className="relative overflow-hidden rounded-xl shadow-[0_24px_48px_rgba(0,0,0,0.4)]"
+                  style={{ aspectRatio: "16/9", minHeight: 200 }}
+                >
+                  <Panel />
+                </div>
+                <div className="flex flex-col gap-3">
+                  <h3 className="text-[28px] font-bold leading-[36px] tracking-[-0.02em] text-[#F7F7F7]">
+                    {tabContent[i].heading}
+                  </h3>
+                  <p className="text-lg font-normal text-[#94979c] leading-[28px]">
+                    {tabContent[i].body}
+                  </p>
+                  <a href={`/features/${tabContent[i].slug}`} className="inline-flex items-center gap-1.5 text-base font-semibold text-[#FF504E] hover:opacity-80 transition-opacity">
+                    {tabContent[i].cta}
+                    <ArrowIcon />
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Desktop: tabbed interface */}
+        <div className="hidden md:block">
+          {/* Tab strip */}
+          <div className="mb-10">
+            <div className="flex flex-row w-full">
+              {tabs.map((tab, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActive(i)}
+                  className="flex flex-col pt-4 pb-0 flex-1 transition-all text-left"
+                  style={{ borderTop: `4px solid ${active === i ? "#FF504E" : "#373A41"}` }}
+                >
+                  <span className={`text-[18px] font-semibold leading-7 transition-colors ${active === i ? "text-[#CECFD2]" : "text-[#CECFD2]/40"}`}>
+                    {tab.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Panel */}
+          <div
+            className="relative overflow-hidden mb-10 float shadow-[0_24px_48px_rgba(0,0,0,0.4)] rounded-xl"
+            style={{ aspectRatio: "16/9" }}
+          >
+            {panelComponents.map((Panel, i) => (
+              <div key={i} className="absolute inset-0" style={{ opacity: active === i ? 1 : 0, transition: "opacity 0.3s", pointerEvents: active === i ? "auto" : "none" }}>
+                <Panel />
+              </div>
             ))}
+          </div>
+
+          {/* Content */}
+          <div ref={contentRef} className="max-w-[768px]">
+            <h3 className="text-[36px] font-bold leading-[44px] tracking-[-0.02em] text-[#F7F7F7] mb-5">
+              {tabContent[active].heading}
+            </h3>
+            <p className="text-xl font-normal text-[#94979c] leading-[30px] mb-6">
+              {tabContent[active].body}
+            </p>
+            <a href={`/features/${tabContent[active].slug}`} className="inline-flex items-center gap-1.5 text-base font-semibold text-[#FF504E] hover:opacity-80 transition-opacity">
+              {tabContent[active].cta}
+              <ArrowIcon />
+            </a>
           </div>
         </div>
 
-        {/* Dashboard mockup / animated panel */}
-        <div className="relative rounded-xl overflow-hidden mb-10 float shadow-[0_24px_48px_rgba(0,0,0,0.4)]" style={{ aspectRatio: "16/9", minHeight: 320 }}>
-          {[AutomationAnimPanel, StreamingPanel, FuseAnimPanel, AIGraphicsAnimPanel, RevenuePanel, RivePanel].map((Panel, i) => (
-            <div key={i} className="absolute inset-0" style={{ opacity: active === i ? 1 : 0, transition: "opacity 0.3s", pointerEvents: active === i ? "auto" : "none" }}>
-              <Panel />
-            </div>
-          ))}
-        </div>
-
-        {/* Content below mockup */}
-        <div ref={contentRef} className="max-w-[768px]">
-          <h3 className="text-[36px] font-bold leading-[44px] tracking-[-0.02em] text-[#F7F7F7] mb-5">
-            {tabContent[active].heading}
-          </h3>
-          <p className="text-xl font-normal text-[#94979c] leading-[30px] mb-6">
-            {tabContent[active].body}
-          </p>
-          <a href={`/features/${tabContent[active].slug}`} className="inline-flex items-center gap-1.5 text-base font-semibold text-[#FF504E] hover:opacity-80 transition-opacity">
-            {tabContent[active].cta}
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M4 10h12M12 6l4 4-4 4" stroke="#FF8A65" strokeWidth="1.667" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-        </div>
       </div>
     </section>
   );

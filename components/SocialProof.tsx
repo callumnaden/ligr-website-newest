@@ -32,28 +32,19 @@ export default function SocialProof() {
   }, []);
 
   return (
-    <section className="py-12 md:py-24 px-4 md:px-6">
-      <p className="text-base font-medium text-[#94979c] text-center mb-8 md:mb-10">
+    <section className="py-10 md:py-24 px-4 md:px-6">
+      <p className="text-sm md:text-base font-medium text-[#94979c] text-center mb-6 md:mb-10">
         Trusted by leading organisations
       </p>
 
-      {/* Mobile: stacked column */}
-      <div className="md:hidden flex flex-col gap-6 items-center">
-        {orgs.map((org, i) => (
-          <span key={i} className="text-[24px] font-bold text-[#F7F7F7] text-center">
-            {org}
-          </span>
-        ))}
-      </div>
-
-      {/* Desktop: ticker */}
-      <div className="hidden md:block overflow-hidden px-6">
+      {/* Ticker — all screen sizes */}
+      <div className="overflow-hidden">
         <div
           ref={trackRef}
-          style={{ display: "flex", gap: "24px", width: "max-content" }}
+          style={{ display: "flex", gap: "32px", width: "max-content", alignItems: "center" }}
         >
           {doubled.map((org, i) => (
-            <span key={i} className="text-[30px] font-bold text-[#F7F7F7] whitespace-nowrap">
+            <span key={i} className="text-[18px] md:text-[30px] font-bold text-[#F7F7F7] whitespace-nowrap">
               {org}
             </span>
           ))}

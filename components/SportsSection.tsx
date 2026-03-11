@@ -147,12 +147,16 @@ function AflIllus({ color }: { color: string }) {
 function NrlIllus({ color }: { color: string }) {
   return (
     <S color={color}>
-      <Ae cx={40} cy={44} rx={26} ry={20} s={0} />
-      <Ap d="M14 44 C26 40 54 40 66 44" s={0.4} t={0.7} />
-      <Ap d="M37 27 L37 61 M40 27 L40 61 M43 27 L43 61" s={0.6} t={0.5} />
-      <Al x1={30} y1={79} x2={30} y2={67} s={0.9} t={0.4} />
-      <Al x1={50} y1={79} x2={50} y2={67} s={1.0} t={0.4} />
-      <Al x1={30} y1={73} x2={50} y2={73} s={1.1} t={0.3} />
+      {/* Ball — rugby league, horizontal */}
+      <Ae cx={40} cy={40} rx={24} ry={17} s={0} />
+      <Ap d="M16 40 C28 36 52 36 64 40" s={0.4} t={0.7} />
+      <Ap d="M37 25 L37 55 M40 24 L40 56 M43 25 L43 55" s={0.6} t={0.5} />
+      {/* H-posts — wide league-style, low crossbar */}
+      <Al x1={18} y1={78} x2={18} y2={62} s={0.8} t={0.4} />
+      <Al x1={62} y1={78} x2={62} y2={62} s={0.9} t={0.4} />
+      <Al x1={18} y1={66} x2={62} y2={66} s={1.0} t={0.5} />
+      <Al x1={8} y1={66} x2={18} y2={66} s={1.1} t={0.3} />
+      <Al x1={62} y1={66} x2={72} y2={66} s={1.2} t={0.3} />
     </S>
   );
 }
@@ -205,12 +209,18 @@ function CricketIllus({ color }: { color: string }) {
 function RugbyUnionIllus({ color }: { color: string }) {
   return (
     <S color={color}>
-      <Ae cx={40} cy={48} rx={22} ry={17} s={0} />
-      <Ap d="M18 48 C30 44 50 44 62 48" s={0.4} t={0.7} />
-      <Al x1={40} y1={31} x2={40} y2={65} s={0.6} t={0.6} />
-      <Al x1={28} y1={10} x2={28} y2={22} s={0.8} t={0.5} />
-      <Al x1={52} y1={10} x2={52} y2={22} s={0.9} t={0.5} />
-      <Al x1={28} y1={18} x2={52} y2={18} s={1.0} t={0.3} />
+      {/* Tall posts — full height, narrower than NRL */}
+      <Al x1={33} y1={78} x2={33} y2={6} s={0} t={0.8} />
+      <Al x1={47} y1={78} x2={47} y2={6} s={0.1} t={0.8} />
+      <Al x1={33} y1={28} x2={47} y2={28} s={0.4} t={0.4} />
+      <Al x1={23} y1={28} x2={33} y2={28} s={0.5} t={0.3} />
+      <Al x1={47} y1={28} x2={57} y2={28} s={0.6} t={0.3} />
+      {/* Ball on kicking tee */}
+      <Ae cx={40} cy={70} rx={8} ry={6} tr="rotate(-20, 40, 70)" s={0.7} t={0.5} />
+      <Ap d="M35 74 L45 74" s={0.8} t={0.3} w="2" />
+      <Ap d="M33 70 L47 70" s={0.9} t={0.4} />
+      {/* Kick arc — ball going over the bar */}
+      <Ap d="M40 64 C39 48 36 36 33 22" s={1.0} t={0.8} />
     </S>
   );
 }
@@ -363,20 +373,22 @@ function SwimmingIllus({ color }: { color: string }) {
 function AthleticsIllus({ color }: { color: string }) {
   return (
     <S color={color}>
-      <Ap
-        d="M14 28 C14 16 22 10 32 10 L48 10 C58 10 66 16 66 28 L66 52 C66 64 58 70 48 70 L32 70 C22 70 14 64 14 52 Z"
-        s={0}
-        t={1.0}
-      />
-      <Ap
-        d="M22 28 C22 20 28 16 36 16 L44 16 C52 16 58 20 58 28 L58 52 C58 60 52 64 44 64 L36 64 C28 64 22 60 22 52 Z"
-        s={0.3}
-        t={0.9}
-      />
-      <Al x1={40} y1={10} x2={40} y2={16} s={0.9} t={0.3} w="2" />
-      <Ac cx={40} cy={40} r={4} s={1.1} t={0.3} />
-      <Ap d="M40 44 L38 52 L34 58 M40 44 L44 52 L48 58" s={1.2} t={0.5} />
-      <Ap d="M34 46 L46 44" s={1.3} t={0.3} />
+      {/* Track lane lines */}
+      <Al x1={8} y1={72} x2={72} y2={72} s={0} t={0.5} />
+      <Al x1={8} y1={62} x2={72} y2={62} s={0.1} t={0.5} />
+      {/* Hurdle */}
+      <Al x1={52} y1={72} x2={52} y2={50} s={0.2} t={0.5} w="2" />
+      <Al x1={60} y1={72} x2={60} y2={50} s={0.3} t={0.5} w="2" />
+      <Al x1={48} y1={50} x2={64} y2={50} s={0.4} t={0.4} w="2" />
+      {/* Runner — hurdling pose */}
+      <Ac cx={26} cy={20} r={6} s={0.5} t={0.4} />
+      <Ap d="M26 26 L24 40" s={0.6} t={0.4} />
+      {/* Lead leg clearing hurdle */}
+      <Ap d="M24 40 L38 32 L48 44" s={0.7} t={0.6} />
+      {/* Trail leg behind */}
+      <Ap d="M24 40 L18 52 L14 62" s={0.8} t={0.5} />
+      {/* Arms pumping */}
+      <Ap d="M24 33 L14 26 M24 33 L34 38" s={0.9} t={0.5} />
     </S>
   );
 }
@@ -425,14 +437,23 @@ function BadmintonIllus({ color }: { color: string }) {
 function HandballIllus({ color }: { color: string }) {
   return (
     <S color={color}>
-      <Ac cx={40} cy={44} r={22} s={0} />
-      <Ap d="M18 44 Q28 36 40 44 Q52 52 62 44" s={0.4} t={0.6} />
-      <Ap d="M40 22 Q44 33 40 44 Q36 55 40 66" s={0.6} t={0.6} />
-      <Al x1={8} y1={78} x2={8} y2={10} s={0.9} t={0.7} />
-      <Al x1={8} y1={10} x2={28} y2={10} s={1.2} t={0.4} />
-      <Al x1={28} y1={10} x2={28} y2={24} s={1.3} t={0.4} />
-      <Ap d="M8 20 L28 20 M8 30 L28 30" s={1.4} t={0.3} />
-      <Ap d="M14 10 L14 24 M21 10 L21 24" s={1.4} t={0.3} />
+      {/* Goal — prominent frame on right */}
+      <Al x1={48} y1={78} x2={48} y2={22} s={0} t={0.6} w="2" />
+      <Al x1={72} y1={78} x2={72} y2={22} s={0.1} t={0.6} w="2" />
+      <Al x1={48} y1={22} x2={72} y2={22} s={0.3} t={0.4} w="2" />
+      {/* Net lines */}
+      <Ap d="M48 36 L72 36 M48 50 L72 50 M48 64 L72 64" s={0.4} t={0.5} />
+      <Ap d="M56 22 L56 78 M64 22 L64 78" s={0.4} t={0.5} />
+      {/* Player on left — throwing pose */}
+      <Ac cx={14} cy={22} r={5} s={0.6} t={0.4} />
+      <Ap d="M14 27 L12 42" s={0.7} t={0.4} />
+      {/* Throwing arm extended */}
+      <Ap d="M13 34 L28 26" s={0.8} t={0.4} />
+      {/* Legs in stride */}
+      <Ap d="M12 42 L8 56 M12 42 L18 54" s={0.9} t={0.5} />
+      {/* Ball in flight */}
+      <Ac cx={38} cy={38} r={8} s={1.0} t={0.5} />
+      <Ap d="M31 35 Q38 38 45 35 M31 41 Q38 38 45 41" s={1.1} t={0.4} />
     </S>
   );
 }
@@ -580,23 +601,13 @@ function SportCard({ name, desc, Illus }: SportConfig) {
   return (
     <div
       className="relative flex-shrink-0 rounded-[18px] overflow-hidden"
-      style={{ width: 340, minWidth: 320, height: 400 }}
+      style={{ width: 340, minWidth: 320, height: 400, background: "#2A2D3D" }}
     >
-      {/* Rotating gradient border */}
-      <div
-        style={{
-          position: "absolute",
-          inset: "-50%",
-          background: "conic-gradient(from 0deg, #2A2D3D 0%, #2A2D3D 28%, #FF504E 42%, #FF8A65 50%, #FF504E 58%, #2A2D3D 72%, #2A2D3D 100%)",
-          animation: "rotateBorder 4s linear infinite, borderColors 16s ease-in-out infinite",
-          zIndex: 0,
-        }}
-      />
-      {/* Inner card — inset 2px leaves border visible on all sides */}
-      <div
-        className="absolute flex flex-col rounded-2xl"
-        style={{ inset: 2, background: "#13161B", padding: 24, gap: 32, zIndex: 1 }}
-      >
+      <div className="mesh-blob mesh-blob-1" />
+      <div className="mesh-blob mesh-blob-2" />
+      <div className="mesh-blob mesh-blob-3" />
+      <div className="absolute inset-0 dot-grid pointer-events-none" />
+      <div className="relative z-10 flex flex-col h-full" style={{ padding: 24, gap: 32 }}>
         {/* Illustration area */}
         <div className="flex-1 rounded-[14px] min-h-0 overflow-hidden" style={{ background: "#22262F" }}>
           <Illus color="#CECFD2" />

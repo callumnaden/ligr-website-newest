@@ -47,19 +47,12 @@ export default function AIDesignSection() {
   }, []);
 
   return (
-    <section ref={ref} className="py-12 md:py-24 px-4 md:px-6">
+    <section ref={ref} className="py-12 md:py-24 px-4 md:px-6 overflow-x-hidden">
       <div className="max-w-[1280px] mx-auto px-6 md:px-8 flex flex-col gap-16 md:gap-32">
 
-        {/* Section 1: AI Graphics — mockup left, text right (text above mockup on mobile) */}
-        <div className="flex flex-col-reverse lg:flex-row gap-16 items-center">
-          {/* Left: Mockup */}
-          <div className="ai-mockup flex-1 min-w-0">
-            <div className="rounded-xl overflow-hidden" style={{ aspectRatio: "3/2" }}>
-              <AIGraphicsAnimPanel />
-            </div>
-          </div>
-
-          {/* Right: Text */}
+        {/* Section 1: AI Graphics — text above, mockup below on mobile; side-by-side on desktop */}
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
+          {/* Text */}
           <div className="ai-left flex flex-col gap-5 lg:w-[480px] shrink-0">
             <p className="text-base font-semibold text-[#94979c]">Powered by Claude AI</p>
             <h2 className="text-[36px] font-bold leading-[44px] tracking-[-0.02em] gradient-text">
@@ -88,11 +81,18 @@ export default function AIDesignSection() {
               </svg>
             </a>
           </div>
+
+          {/* Mockup — full-bleed on mobile */}
+          <div className="ai-mockup flex-1 min-w-0">
+            <div className="rounded-xl overflow-hidden" style={{ aspectRatio: "3/2" }}>
+              <AIGraphicsAnimPanel />
+            </div>
+          </div>
         </div>
 
-        {/* Section 2: Meet Fuse — text left, mockup right */}
-        <div className="flex flex-col lg:flex-row gap-16 items-center">
-          {/* Left: Text */}
+        {/* Section 2: Meet Fuse — text above, mockup below on mobile; text left on desktop */}
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-center">
+          {/* Text */}
           <div className="fuse-left flex flex-col gap-5 lg:w-[480px] shrink-0">
             <p className="text-base font-semibold text-[#94979c]">AI Theme Builder</p>
             <h2 className="text-[36px] font-bold leading-[44px] tracking-[-0.02em] gradient-text">
@@ -122,7 +122,7 @@ export default function AIDesignSection() {
             </a>
           </div>
 
-          {/* Right: Mockup */}
+          {/* Mockup — full-bleed on mobile */}
           <div className="fuse-mockup flex-1 min-w-0">
             <div className="rounded-xl overflow-hidden" style={{ aspectRatio: "3/2" }}>
               <FuseAnimPanel />
